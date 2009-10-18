@@ -18,10 +18,10 @@ class Series(object):
         self.finish = points[-1][0]
         self.algo = 'lazy'
         
-        self.series = self.__split_series()
+        self.series = self.split_series()
         
     
-    def __split_series(self):
+    def split_series(self):
         if self.algo == 'dict':
             return self.__split_series_dict()
         elif self.algo == 'lazy':
