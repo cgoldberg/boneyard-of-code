@@ -1,9 +1,13 @@
+#!/usr/bin/env python
+# Corey Goldberg
 
 
 from collections import defaultdict
 
 
+
 class Series(object):
+
     def __init__(self, points, interval):
         # points is a list of tuples: (sec, value)
         # interval is in secs
@@ -12,12 +16,21 @@ class Series(object):
         self.interval = interval
         self.start = points[0][0]
         self.finish = points[-1][0]
+        self.algo = 'lazy'
         
         self.series = self.__split_series()
         
     
-    
     def __split_series(self):
+        if self.algo == 'dict':
+            return self.__split_series_dict()
+        elif self.algo == 'lazy':
+            return self.__split_series_lazy()
+        else:
+            raise Exception('unknown algorithm')
+            
+        
+    def __split_series_dict(self):
         offset = self.points[0][0]
         maxval = (self.points[-1][0] - offset) // self.interval
         vals = defaultdict(list)
@@ -26,8 +39,8 @@ class Series(object):
         series = [vals[i] for i in xrange(maxval + 1)]
         return series
         
-    """
-    def __split_series(self):
+
+    def __split_series_lazy(self):
         end_of_chunk = self.interval
         chunk = []
         for marker, item in self.points:
@@ -39,48 +52,16 @@ class Series(object):
             chunk.append(item)
         yield chunk
         
-    """   
+       
         
 
 
-import time
 
-
-
-t = time.clock()    
-a = 0
-b = 1000000
-points = []
-for x in range(2000000):
-    points.append((a, b))
-    a += 1
-    b += 1
-print time.clock() - t
-
-
-
-"""
-points = [
-    (3, 'a'), 
-    (3, 'b'), 
-    (3, 'a'), 
-    (3, 'd'), 
-    (4, 'c'),
-    (16, 'e'),
-    (36, 'a'),
-]
 
 
 points = [(1, 'a'), (2, 'b'), (2, 'a'), (3, 'd'), (8, 'c')]
-"""
-
-t = time.clock()
-series = Series(points, 10000)
-series = list(series.series)
-print time.clock() - t
-
-#print list(series.series)
-
+s = Series(points, 3)
+print list(s.series)
 
     
     
