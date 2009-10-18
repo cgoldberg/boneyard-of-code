@@ -1,6 +1,12 @@
+#!/usr/bin/env python
+# Corey Goldberg - 2009
+
+
+# Waterfall plot using Matplotlib
+# under construction
+
 
 from pylab import *
-
 
 
 
