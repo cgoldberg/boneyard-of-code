@@ -11,7 +11,7 @@ import time
 
 def main():
     if len(sys.argv) != 3:
-        print 'usage:\nhttp_profiler.py <url> <interval>\n'
+        print 'usage:\nurl_timer.py <url> <interval>\n'
         sys.exit(1)
         
     url = sys.argv[1]

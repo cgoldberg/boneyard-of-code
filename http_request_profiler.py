@@ -9,7 +9,7 @@ import time
 
 
 if len(sys.argv) != 2:
-    print 'usage:\nhttp_profiler.py \n(do not include http://)'
+    print 'usage:\nhttp_request_profiler.py \n(do not include http://)'
     sys.exit(1)
 
 # get host and path names from url
