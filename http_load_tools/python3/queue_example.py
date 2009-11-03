@@ -5,7 +5,7 @@
 
 
 import time
-import Queue
+import queue
 from threading import Thread
 
 
@@ -17,7 +17,7 @@ def main():
 
 class Manager:
     def __init__(self):
-        self.queue = Queue.Queue()       
+        self.queue = queue.Queue()       
     
     def start(self):
         qw = Sender(self.queue)
@@ -55,7 +55,7 @@ class Receiver(Thread):
             try:
                 i = self.q.get(False)
                 print('got %d from queue' % i)
-            except Queue.Empty:
+            except queue.Empty:
                 time.sleep(0.25)
 
 
