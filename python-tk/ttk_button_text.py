@@ -16,11 +16,11 @@ class Application:
         self.init_widgets()
             
     def init_widgets(self):
-        ttk.Button(self.root, command=self.place_txt, text='Click Me', width='10').place(x=10, y=10)
+        ttk.Button(self.root, command=self.insert_txt, text='Click Me', width='10').place(x=10, y=10)
         self.txt = tkinter.Text(self.root, width='15', height='2')
         self.txt.place(x=10, y=50)
         
-    def place_txt(self):
+    def insert_txt(self):
         self.txt.insert(tkinter.INSERT, 'Hello World\n')
 
 
