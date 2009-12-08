@@ -17,7 +17,6 @@ class Application:
         bb = BusyBar.BusyBar(self.root, width=200)
         bb.place(x=40, y=20)
         bb.on()
-        self.root.update()
     
 
 if __name__ == '__main__':
