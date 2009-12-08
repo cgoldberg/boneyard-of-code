@@ -33,8 +33,8 @@ class Application:
 
     def get_url(self):
         url = self.entry.get()
-        resp = urllib.request.urlopen(url).info()
-        self.txt.insert(tkinter.INSERT, resp)
+        headers = urllib.request.urlopen(url).info()
+        self.txt.insert(tkinter.INSERT, headers)
     
     
 
