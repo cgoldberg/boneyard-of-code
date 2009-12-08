@@ -24,7 +24,7 @@ class Application:
         self.entry = ttk.Entry(self.root, width='60')
         self.entry.grid(column=0, row=0, sticky='e')
         
-        self.txt = tkinter.Text(self.root, width='80', height='40')
+        self.txt = tkinter.Text(self.root, width='80', height='20')
         self.txt.grid(column=0, row=1, sticky='nwes')
         sb = ttk.Scrollbar(command=self.txt.yview, orient='vertical')
         sb.grid(column=1, row=1, sticky='ns')
@@ -34,7 +34,7 @@ class Application:
 
     def get_url(self):
         url = self.entry.get()
-        resp = urllib.request.urlopen(url).read()
+        resp = urllib.request.urlopen(url).info()
         self.txt.insert(tkinter.INSERT, resp)
     
     
