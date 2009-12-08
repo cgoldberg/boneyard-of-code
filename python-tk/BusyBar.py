@@ -4,13 +4,17 @@ Rick Lawson
 r_b_lawson at yahoo dot com
 Heavily borrowed from ProgressBar.py which I got off the net but can't remember where
 Feel free to add credits.
-Comments by Stewart Midwinter: 
- I added a Quit button so you can stop the app.
- I also set up a timer so that the BusyBar stops after a certain period.
- Next, I added a button to bring up a BusyBar in a top-level window, similar to what
- you might a process to do while it was, in fact, busy.
- The top-level window is non-modal; it's left as an exercise for you, the reader, to change that if needed.
 
+Comments by Stewart Midwinter: 
+    I added a Quit button so you can stop the app.
+    I also set up a timer so that the BusyBar stops after a certain period.
+    Next, I added a button to bring up a BusyBar in a top-level window, similar to what
+    you might a process to do while it was, in fact, busy.
+    The top-level window is non-modal; it's left as an exercise for you, the reader, to change that if needed.
+
+Comments by Corey Goldberg (Dec 2009):
+    - updated code to run under Python 3.1
+    
 
 config options
 --------------
@@ -27,8 +31,10 @@ foreground - color of text message
 font       - font of text message
 """
 
-from Tkinter import *
+
+from tkinter import *
 import time
+
 
 class BusyBar(Frame):
     def __init__(self, master=None, **options):
@@ -114,7 +120,7 @@ class BusyBar(Frame):
 
 def pop(dict, key, default):
     value = dict.get(key, default)
-    if dict.has_key(key):
+    if key in dict:
         del dict[key]
     return value
 
