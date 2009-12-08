@@ -12,7 +12,7 @@ Comments by Stewart Midwinter:
     you might a process to do while it was, in fact, busy.
     The top-level window is non-modal; it's left as an exercise for you, the reader, to change that if needed.
 
-Comments by Corey Goldberg (Dec 2009):
+Comments by Corey Goldberg (corey@goldb.org) Dec 2009:
     - updated code to run under Python 3.1
     
 
