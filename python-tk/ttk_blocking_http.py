@@ -30,7 +30,6 @@ class Application:
         sb.grid(column=1, row=1, sticky='ns')
         self.txt['yscrollcommand'] = sb.set
         
-        
 
     def get_url(self):
         url = self.entry.get()
