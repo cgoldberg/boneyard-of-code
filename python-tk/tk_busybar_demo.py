@@ -12,10 +12,10 @@ class Application:
     def __init__(self, root):
         self.root = root
         self.root.title('BusyBar Demo')
-        ttk.Frame(self.root, width=200, height=100).pack()
+        ttk.Frame(self.root, width=300, height=100).pack()
         
-        bb = BusyBar.BusyBar(self.root, width=150)
-        bb.place(x=20, y=15)
+        bb = BusyBar.BusyBar(self.root, width=200)
+        bb.place(x=40, y=20)
         bb.on()
         self.root.update()
     
