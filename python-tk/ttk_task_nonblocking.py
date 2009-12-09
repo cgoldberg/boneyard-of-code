@@ -15,18 +15,15 @@ import BusyBar
 class Application:
     def __init__(self, root):
         self.root = root
-        self.root.title('Blocking Command Demo')
+        self.root.title('Non-Blocking Command Demo')
         
         self.init_widgets()
             
             
     def init_widgets(self):
-        self.btn = ttk.Button(self.root, command=self.get_url, text='Get Url', width=8)
+        self.btn = ttk.Button(self.root, command=self.get_url, text='Run Task', width=12)
         self.btn.grid(column=0, row=0, sticky='w')
-        
-        self.entry = ttk.Entry(self.root, width=60)
-        self.entry.grid(column=0, row=0, sticky='e')
-        
+
         self.txt = tkinter.Text(self.root, width=80, height=20)
         self.txt.grid(column=0, row=1, sticky='nwes')
         sb = ttk.Scrollbar(command=self.txt.yview, orient='vertical')
