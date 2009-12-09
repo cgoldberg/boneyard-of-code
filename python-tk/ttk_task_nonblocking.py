@@ -3,13 +3,15 @@
 # Corey Goldberg - 2009
 
 
+from threading import Thread
+import urllib.request
+import time 
 import tkinter
 from tkinter import ttk
-import urllib.request
 import BusyBar
 
 
- 
+
 class Application:
     def __init__(self, root):
         self.root = root
@@ -34,28 +36,33 @@ class Application:
         
     def get_url(self):
         self.btn.configure(state=tkinter.DISABLED)
+        
         bb = BusyBar.BusyBar(self.root, width=200)
-        bb.place(x=40, y=20)
+        bb.place(x=60, y=40)
         bb.on()
         self.root.update()
         
-        url = self.entry.get()
-        headers = urllib.request.urlopen(url).info()
-        time.sleep(3)
-        self.txt.insert(tkinter.INSERT, headers)
-    
-        #bb.destroy()
+        t = Task()
+        t.start()
+        
+        while t.is_alive():
+            self.root.update()
+            time.sleep(0.05)
+            
+        bb.destroy()
         self.btn.configure(state=tkinter.NORMAL)
+        
+        self.txt.insert(tkinter.INSERT, 'Finished\n')
+        self.txt.see(tkinter.END)
 
 
-class Task:
+
+class Task(Thread):
     def __init__(self):
-        self.
-        
-    def run_task():
-        
-        
-        
+        Thread.__init__(self)
+    def run(self):
+        # do some real work here
+        time.sleep(3)
         
         
         
