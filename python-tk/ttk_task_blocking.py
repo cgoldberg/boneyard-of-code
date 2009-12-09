@@ -12,7 +12,7 @@ import urllib.request
 class Application:
     def __init__(self, root):
         self.root = root
-        self.root.title('Blocking Command Demo')
+        self.root.title('Blocking Task Demo')
         
         self.init_widgets()
             

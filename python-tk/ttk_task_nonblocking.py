@@ -15,7 +15,7 @@ import BusyBar
 class Application:
     def __init__(self, root):
         self.root = root
-        self.root.title('Non-Blocking Command Demo')
+        self.root.title('Non-Blocking Task Demo')
         
         self.init_widgets()
             
@@ -24,7 +24,7 @@ class Application:
         self.btn = ttk.Button(self.root, command=self.get_url, text='Run Task', width=12)
         self.btn.grid(column=0, row=0, sticky='w')
 
-        self.txt = tkinter.Text(self.root, width=80, height=20)
+        self.txt = tkinter.Text(self.root, width=40, height=10)
         self.txt.grid(column=0, row=1, sticky='nwes')
         sb = ttk.Scrollbar(command=self.txt.yview, orient='vertical')
         sb.grid(column=1, row=1, sticky='ns')
@@ -34,7 +34,7 @@ class Application:
     def get_url(self):
         self.btn.configure(state=tkinter.DISABLED)
         
-        bb = BusyBar.BusyBar(self.root, width=200)
+        bb = BusyBar.BusyBar(self.root, width=150)
         bb.place(x=60, y=40)
         bb.on()
         self.root.update()
