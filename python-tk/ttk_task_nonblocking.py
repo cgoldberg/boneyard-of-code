@@ -44,7 +44,9 @@ class Application:
         
         while t.is_alive():
             self.root.update()
-            time.sleep(0.05)
+            self.txt.insert(tkinter.INSERT, 'Waiting\n')
+            self.txt.see(tkinter.END)
+            time.sleep(0.1)
             
         bb.destroy()
         self.btn.configure(state=tkinter.NORMAL)
