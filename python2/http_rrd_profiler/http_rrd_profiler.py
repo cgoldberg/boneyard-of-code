@@ -8,9 +8,13 @@ import time
 import rrd
 
 
+GRAPH_MINS = 15
 
-host = 'www.goldb.org'
-interval = 5  # sec collection interval
+if len(sys.argv) != 3:
+    print 'usage:\nhttp_rrd_profiler.py <host> <interval>\n'
+    sys.exit(1)
+host = sys.argv[1]
+interval = int(sys.argv[2])
 
 
 # choose timer to use
@@ -23,6 +27,7 @@ else:
     
 def main():
     my_rrd = rrd.RRD('http_latency.rrd')
+    my_rrd.create_rrd(interval)
     while True:
         start = default_timer()
         try:
@@ -36,7 +41,7 @@ def main():
         print '%.0f content transferred (%i bytes)' % (transfer_time, size)
         time_set = (request_time, response_time, transfer_time)
         my_rrd.update(time_set)
-        my_rrd.graph(15) # mins
+        my_rrd.graph(GRAPH_MINS)
         elapsed = default_timer() - start
         time.sleep(interval - elapsed)
         
