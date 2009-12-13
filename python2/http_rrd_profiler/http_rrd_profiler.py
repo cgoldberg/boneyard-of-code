@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Corey Goldberg - 2009
+# Corey Goldberg - Dec 2009
 
 
 import httplib

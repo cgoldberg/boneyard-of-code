@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# Corey Goldberg - Dec 2009
 
 import os
 import time
