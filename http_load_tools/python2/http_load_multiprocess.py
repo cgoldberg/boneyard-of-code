@@ -104,7 +104,7 @@ class ResultWriter(threading.Thread):
         self.start_time = start_time
     
     def run(self):
-        with open('results.csv', 'a') as f:     
+        with open('results.csv', 'w') as f:     
             while True:
                 try:
                     q_tuple = self.q.get(False)
