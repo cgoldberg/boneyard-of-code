@@ -39,14 +39,14 @@ def main():
 
 
 class LoadManager(multiprocessing.Process):
-    def __init__(self, queue, start_time, process_num, num_threads=1, interval=0, RUN_TIME=10, rampup=0):
+    def __init__(self, queue, start_time, process_num, num_threads=1, interval=0, run_time=10, rampup=0):
         multiprocessing.Process.__init__(self)
         self.q = queue
         self.start_time = start_time
         self.process_num = process_num
         self.num_threads = num_threads
         self.interval = interval
-        self.RUN_TIME = RUN_TIME
+        self.run_time = run_time
         self.rampup = rampup
         self.parsed_url = urlparse.urlsplit(URL)
         
@@ -56,7 +56,7 @@ class LoadManager(multiprocessing.Process):
             spacing = (float(self.rampup) / float(self.num_threads))
             if i > 0:
                 time.sleep(spacing)
-            agent_thread = LoadAgent(self.q, self.parsed_url, self.interval, self.start_time, self.RUN_TIME)
+            agent_thread = LoadAgent(self.q, self.parsed_url, self.interval, self.start_time, self.run_time)
             agent_thread.setDaemon(True)
             thread_refs.append(agent_thread)
             print 'starting process %i, thread %i' % (self.process_num + 1, i + 1)
@@ -67,12 +67,12 @@ class LoadManager(multiprocessing.Process):
 
 
 class LoadAgent(threading.Thread):
-    def __init__(self, queue, parsed_url, interval, start_time, RUN_TIME):
+    def __init__(self, queue, parsed_url, interval, start_time, run_time):
         threading.Thread.__init__(self)
         self.q = queue
         self.interval = interval
         self.start_time = start_time
-        self.RUN_TIME = RUN_TIME
+        self.run_time = run_time
         self.parsed_url = parsed_url
         
         # choose timer to use
@@ -93,7 +93,7 @@ class LoadAgent(threading.Thread):
             latency = finish - start
             elapsed = time.time() - self.start_time 
             self.q.put((elapsed, latency, status))
-            if elapsed >= self.RUN_TIME:
+            if elapsed >= self.run_time:
                 break
             expire_time = self.interval - latency
             if expire_time > 0:
