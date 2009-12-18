@@ -45,7 +45,7 @@ class LoadManager:
             spacing = (float(rampup) / float(agents))
             if i > 0:
                 time.sleep(spacing)
-            agent = LoadAgent(self.q, self.parsed_url, interval, self.msg, self.start_time, runtime)
+            agent = LoadAgent(self.q, self.parsed_url, interval, self.start_time, runtime)
             print 'starting agent # ' + str(i)
             agent.start()
 
@@ -56,7 +56,6 @@ class LoadAgent(multiprocessing.Process):
         multiprocessing.Process.__init__(self)
         self.q = q
         self.interval = interval
-        self.msg = msg
         self.start_time = start_time
         self.runtime = runtime
         self.parsed_url = parsed_url
@@ -71,7 +70,7 @@ class LoadAgent(multiprocessing.Process):
         while True:
             start = self.default_timer()               
             try:
-                self.send(self.msg, self.parsed_url)
+                self.send(self.parsed_url)
             except Exception, e:
                 print e
             finish = self.default_timer()
