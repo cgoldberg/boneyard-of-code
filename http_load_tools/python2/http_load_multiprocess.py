@@ -16,7 +16,7 @@ import urlparse
 
 
 URL = 'http://www.example.com'
-AGENTS = 1
+AGENTS = 2
 INTERVAL = 1  # secs
 RUNTIME = 10  # secs
 RAMPUP = 0  # secs
