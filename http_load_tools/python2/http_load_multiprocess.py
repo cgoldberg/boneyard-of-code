@@ -89,6 +89,7 @@ class LoadAgent(multiprocessing.Process):
             conn = httplib.HTTPConnection(parsed_url.netloc)
         try:
             conn.request('GET', parsed_url.path, parsed_url.query)
+            resp = conn.getresponse().read()
         except Exception, e:
             raise Exception('Connection Error: %s' % e)
         finally:
