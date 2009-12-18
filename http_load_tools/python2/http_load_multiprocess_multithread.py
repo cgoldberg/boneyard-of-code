@@ -15,7 +15,7 @@ import urlparse
 
 
 
-URL = 'http://perfweb13/NaviNetNotSupported.html'
+URL = 'http://www.example.com/'
 PROCESSES = 2
 PROCESS_THREADS = 25
 INTERVAL = 0  # secs
