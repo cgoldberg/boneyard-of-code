@@ -129,7 +129,7 @@ class ResultWriter(threading.Thread):
                     elapsed, latency, status = q_tuple
                     f.write('%.3f,%.3f,%i\n' % (elapsed, latency, status))
                     f.flush()
-                    #print '%.3f' % latency
+                    print '%.3f' % latency
                 except Queue.Empty:
                     # re-check queue for messages every x sec
                     time.sleep(.1)
