@@ -15,8 +15,6 @@ import urlparse
 
 
 URL = 'http://www.example.com'
-
-# load parameters
 AGENTS = 1
 INTERVAL = 1  # secs
 RUNTIME = 5  # secs
@@ -52,9 +50,9 @@ class LoadManager:
 
 
 class LoadAgent(multiprocessing.Process):
-    def __init__(self, q, parsed_url, interval, msg, start_time, runtime):
+    def __init__(self, queue, parsed_url, interval, start_time, runtime):
         multiprocessing.Process.__init__(self)
-        self.q = q
+        self.q = queue
         self.interval = interval
         self.start_time = start_time
         self.runtime = runtime
@@ -89,9 +87,7 @@ class LoadAgent(multiprocessing.Process):
         else:
             conn = httplib.HTTPConnection(parsed_url.netloc)
         try:
-            #conn.set_debuglevel(1)
             conn.request('GET', parsed_url.path, parsed_url.query)
-            print conn.getresponse().read()
         except Exception, e:
             raise Exception('Connection Error: %s' % e)
         finally:
