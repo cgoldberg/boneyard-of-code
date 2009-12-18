@@ -14,7 +14,7 @@ import time
 import urlparse
 
 
-URL = 'http://www.example.com/foo/bar?a=b'
+URL = 'http://www.example.com'
 
 # load parameters
 AGENTS = 1
