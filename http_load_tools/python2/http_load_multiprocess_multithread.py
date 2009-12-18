@@ -17,7 +17,7 @@ import urlparse
 
 URL = 'http://www.example.com/'
 PROCESSES = 2
-PROCESS_THREADS = 25
+PROCESS_THREADS = 2
 INTERVAL = 0  # secs
 RUN_TIME = 10  # secs
 RAMPUP = 0  # secs
