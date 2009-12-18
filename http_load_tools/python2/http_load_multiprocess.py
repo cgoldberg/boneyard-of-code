@@ -45,7 +45,7 @@ class LoadManager:
             if i > 0:
                 time.sleep(spacing)
             agent = LoadAgent(self.q, self.parsed_url, interval, self.start_time, runtime)
-            print 'starting agent # ' + str(i)
+            print 'starting agent # %i' % i
             agent.start()
 
 
