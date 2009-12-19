@@ -98,9 +98,9 @@ class LoadAgent(multiprocessing.Process):
 
 
 class ResultWriter(threading.Thread):
-    def __init__(self, q):
+    def __init__(self, queue):
         threading.Thread.__init__(self)
-        self.q = q
+        self.q = queue
     
     def run(self):
         with open('results.csv', 'w') as f:     
