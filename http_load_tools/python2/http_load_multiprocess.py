@@ -18,14 +18,14 @@ import urlparse
 URL = 'http://www.example.com'
 AGENTS = 2
 INTERVAL = 1  # secs
-RUNTIME = 10  # secs
+RUN_TIME = 10  # secs
 RAMPUP = 0  # secs
 
 
 
 def main():
     manager = LoadManager()
-    manager.start(AGENTS, INTERVAL, RUNTIME, RAMPUP)
+    manager.start(AGENTS, INTERVAL, RUN_TIME, RAMPUP)
     
 
 
@@ -35,8 +35,8 @@ class LoadManager:
         self.q = multiprocessing.Queue()       
         self.start_time = time.time()
         
-    def start(self, agents=1, interval=0, runtime=10, rampup=0):
-        rw = ResultWriter(self.q, self.start_time)
+    def start(self, agents=1, interval=0, run_time=10, rampup=0):
+        rw = ResultWriter(self.q)
         rw.setDaemon(True)
         rw.start()
         
@@ -44,19 +44,19 @@ class LoadManager:
             spacing = (float(rampup) / float(agents))
             if i > 0:
                 time.sleep(spacing)
-            agent = LoadAgent(self.q, self.parsed_url, interval, self.start_time, runtime)
+            agent = LoadAgent(self.q, self.parsed_url, interval, self.start_time, run_time)
             print 'starting agent # %i' % i
             agent.start()
 
 
 
 class LoadAgent(multiprocessing.Process):
-    def __init__(self, queue, parsed_url, interval, start_time, runtime):
+    def __init__(self, queue, parsed_url, interval, start_time, run_time):
         multiprocessing.Process.__init__(self)
         self.q = queue
         self.interval = interval
         self.start_time = start_time
-        self.runtime = runtime
+        self.run_time = run_time
         self.parsed_url = parsed_url
         
         # choose timer to use
@@ -74,11 +74,11 @@ class LoadAgent(multiprocessing.Process):
                 print e
             finish = self.default_timer()
             latency = finish - start
-            self.q.put((time.time(), latency))
-            expire_time = self.interval - latency
             elapsed = time.time() - self.start_time
-            if elapsed >= self.runtime:
+            self.q.put((time.time(), latency))
+            if elapsed >= self.run_time:
                 break
+            expire_time = self.interval - latency
             if expire_time > 0:
                 time.sleep(expire_time)
            
@@ -98,18 +98,15 @@ class LoadAgent(multiprocessing.Process):
 
 
 class ResultWriter(threading.Thread):
-    def __init__(self, q, start_time):
+    def __init__(self, q):
         threading.Thread.__init__(self)
         self.q = q
-        self.start_time = start_time
     
     def run(self):
         with open('results.csv', 'w') as f:     
             while True:
                 try:
-                    q_tuple = self.q.get(False)
-                    trans_end_time, latency = q_tuple
-                    elapsed = trans_end_time - self.start_time
+                    elapsed, latency = self.q.get(False)
                     f.write('%.3f,%.3f\n' % (elapsed, latency))
                     f.flush()
                     print '%.3f' % latency
