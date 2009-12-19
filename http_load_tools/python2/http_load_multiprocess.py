@@ -41,7 +41,7 @@ class LoadManager:
         rw.start()
         
         for i in range(agents):
-            spacing = (float(rampup) / float(agents))
+            spacing = float(rampup) / float(agents)
             if i > 0:
                 time.sleep(spacing)
             agent = LoadAgent(self.q, self.parsed_url, interval, self.start_time, run_time)
