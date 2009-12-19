@@ -15,11 +15,11 @@ import urlparse
 
 
 
-URL = 'http://www.example.com/'
-PROCESSES = 2
-PROCESS_THREADS = 2
+URL = 'http://localhost/'
+PROCESSES = 3
+PROCESS_THREADS = 4
 INTERVAL = 0  # secs
-RUN_TIME = 10  # secs
+RUN_TIME = 60  # secs
 RAMPUP = 0  # secs
 
 
@@ -53,7 +53,7 @@ class LoadManager(multiprocessing.Process):
     def run(self):
         thread_refs = []
         for i in range(self.num_threads):
-            spacing = (float(self.rampup) / float(self.num_threads))
+            spacing = float(self.rampup) / float(self.num_threads)
             if i > 0:
                 time.sleep(spacing)
             agent_thread = LoadAgent(self.q, self.parsed_url, self.interval, self.start_time, self.run_time)
@@ -92,7 +92,7 @@ class LoadAgent(threading.Thread):
             finish = self.default_timer()
             latency = finish - start
             elapsed = time.time() - self.start_time 
-            self.q.put((elapsed, latency, status))
+            self.q.put((elapsed, status, latency))
             if elapsed >= self.run_time:
                 break
             expire_time = self.interval - latency
@@ -125,9 +125,8 @@ class ResultWriter(threading.Thread):
         with open('results.csv', 'w') as f:     
             while True:
                 try:
-                    q_tuple = self.q.get(False)
-                    elapsed, latency, status = q_tuple
-                    f.write('%.3f,%.3f,%i\n' % (elapsed, latency, status))
+                    elapsed, status, latency = self.q.get(False)
+                    f.write('%.3f,%i,%.3f\n' % (elapsed, status, latency))
                     f.flush()
                     print '%.3f' % latency
                 except Queue.Empty:
