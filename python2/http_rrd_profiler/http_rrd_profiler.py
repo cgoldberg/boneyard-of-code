@@ -43,7 +43,8 @@ def main():
         my_rrd.update(time_set)
         my_rrd.graph(GRAPH_MINS)
         elapsed = default_timer() - start
-        time.sleep(interval - elapsed)
+        if interval > elapsed:
+            time.sleep(interval - elapsed)
         
 
 
