@@ -15,8 +15,8 @@ def main():
     
     
 def parse_file(file_name):
-    resp_times = []
     reader = csv.reader(open(file_name, 'rb'))
+    resp_times = []
     for line in reader:
         resp_times.append((float(line[0]), float(line[1])))
     return resp_times    
