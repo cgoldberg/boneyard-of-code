@@ -16,9 +16,7 @@ def main():
     
 def parse_file(file_name):
     reader = csv.reader(open(file_name, 'rb'))
-    resp_times = []
-    for line in reader:
-        resp_times.append((float(line[0]), float(line[1])))
+    resp_times = [(float(line[0]), float(line[1])) for line in reader]
     return resp_times    
    
    
@@ -30,8 +28,8 @@ def split_series(points, interval):
         vals[(key - offset) // interval].append(value)
     series = [vals[i] for i in xrange(maxval + 1)]
     return series
-   
-   
+
+
 def avg(seq):
     return float(sum(seq) / len(seq)) 
     
