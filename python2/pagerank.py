@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 #
-# Script for getting Google Page Rank of page
-# Google Toolbar 3.0.x/4.0.x Pagerank Checksum Algorithm
+#  Script for getting Google Page Rank of page
+#  Google Toolbar 3.0.x/4.0.x Pagerank Checksum Algorithm
 #
-# original from http://pagerank.gamesaga.net/
-# this version was adapted from http://www.djangosnippets.org/snippets/221/
-# by Corey Goldberg - 2010
+#  original from http://pagerank.gamesaga.net/
+#  this version was adapted from http://www.djangosnippets.org/snippets/221/
+#  by Corey Goldberg - 2010
 #
-# Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+#  Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 
 
 
