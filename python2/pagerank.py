@@ -14,9 +14,9 @@
 import urllib
 
 
-def get_pagerank(URL):
-    hsh = CheckHash(HashURL(URL))
-    gurl = 'http://www.google.com/search?client=navclient-auto&features=Rank:&q=info:%s&ch=%s' % (urllib.quote(URL), hsh)
+def get_pagerank(url):
+    hsh = check_hash(hash_url(url))
+    gurl = 'http://www.google.com/search?client=navclient-auto&features=Rank:&q=info:%s&ch=%s' % (urllib.quote(url), hsh)
     try:
         f = urllib.urlopen(gurl)
         rank = f.read().strip()[9:]
@@ -27,58 +27,58 @@ def get_pagerank(URL):
     return rank
     
     
-def  IntStr(String, Integer, Factor):
-    for i in range(len(String)) :
-        Integer *= Factor
-        Integer &= 0xFFFFFFFF
-        Integer += ord(String[i])
-    return Integer
+def  int_str(string, integer, factor):
+    for i in range(len(string)) :
+        integer *= factor
+        integer &= 0xFFFFFFFF
+        integer += ord(string[i])
+    return integer
 
 
-def HashURL(Str):
-    C1 = IntStr(Str, 0x1505, 0x21)
-    C2 = IntStr(Str, 0, 0x1003F)
+def hash_url(string):
+    c1 = int_str(string, 0x1505, 0x21)
+    c2 = int_str(string, 0, 0x1003F)
 
-    C1 >>= 2
-    C1 = ((C1 >> 4) & 0x3FFFFC0) | (C1 & 0x3F)
-    C1 = ((C1 >> 4) & 0x3FFC00) | (C1 & 0x3FF)
-    C1 = ((C1 >> 4) & 0x3C000) | (C1 & 0x3FFF)
+    c1 >>= 2
+    c1 = ((c1 >> 4) & 0x3FFFFC0) | (c1 & 0x3F)
+    c1 = ((c1 >> 4) & 0x3FFC00) | (c1 & 0x3FF)
+    c1 = ((c1 >> 4) & 0x3C000) | (c1 & 0x3FFF)
 
-    T1 = (C1 & 0x3C0) << 4
-    T1 |= C1 & 0x3C
-    T1 = (T1 << 2) | (C2 & 0xF0F)
+    t1 = (c1 & 0x3C0) << 4
+    t1 |= c1 & 0x3C
+    t1 = (t1 << 2) | (c2 & 0xF0F)
 
-    T2 = (C1 & 0xFFFFC000) << 4
-    T2 |= C1 & 0x3C00
-    T2 = (T2 << 0xA) | (C2 & 0xF0F0000)
+    t2 = (c1 & 0xFFFFC000) << 4
+    t2 |= c1 & 0x3C00
+    t2 = (t2 << 0xA) | (c2 & 0xF0F0000)
 
-    return (T1 | T2)
+    return (t1 | t2)
 
 
-def CheckHash(HashInt):
-    HashStr = '%u' % (HashInt)
-    Flag = 0
-    CheckByte = 0
+def check_hash(hash_int):
+    hash_str = '%u' % (hash_int)
+    flag = 0
+    check_byte = 0
 
-    i = len(HashStr) - 1
+    i = len(hash_str) - 1
     while i >= 0:
-        Byte = int(HashStr[i])
-        if 1 == (Flag % 2):
-            Byte *= 2;
-            Byte = Byte / 10 + Byte % 10
-        CheckByte += Byte
-        Flag += 1
+        byte = int(hash_str[i])
+        if 1 == (flag % 2):
+            byte *= 2;
+            byte = byte / 10 + byte % 10
+        check_byte += byte
+        flag += 1
         i -= 1
 
-    CheckByte %= 10
-    if 0 != CheckByte:
-        CheckByte = 10 - CheckByte
-        if 1 == Flag % 2:
-            if 1 == CheckByte % 2:
-                CheckByte += 9
-            CheckByte >>= 1
+    check_byte %= 10
+    if 0 != check_byte:
+        check_byte = 10 - check_byte
+        if 1 == flag % 2:
+            if 1 == check_byte % 2:
+                check_byte += 9
+            check_byte >>= 1
 
-    return '7' + str(CheckByte) + HashStr
+    return '7' + str(check_byte) + hash_str
 
 
 
