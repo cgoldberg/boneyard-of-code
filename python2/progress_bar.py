@@ -3,12 +3,12 @@
 # ascii command-line progress bar with percentage and elapsed time display
 #
 # modified by Corey Goldberg - 2010
-# adapted from Pylot source code,  original by Vasil Vangelovsk
+# adapted from Pylot source code,  original by Vasil Vangelovski
 
 
 
 class ProgressBar:
-    def __init__(self, duration, min_value=0, max_value=100, total_width=40):
+    def __init__(self, duration, min_value=0, max_value=100, total_width=50):
         self.prog_bar = '[]'
         self.duration = duration
         self.min = min_value
