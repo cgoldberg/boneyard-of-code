@@ -2,6 +2,8 @@
 #  Copyright (c) 2009 Corey Goldberg (corey@goldb.org)
 #
 #  Multi-Process, Multi-Thread, HTTP Load Generator
+#
+#  requires Python 2.6+
 
 
 import httplib
