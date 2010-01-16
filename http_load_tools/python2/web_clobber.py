@@ -42,8 +42,8 @@ def main():
     for manager in managers:
         manager.start()
     
-    print 'os processes:  %i' % PROCESSES
-    print 'agent threads: %i' % (PROCESS_THREADS * PROCESSES)
+    print '\n  processes:  %i' % PROCESSES
+    print '  threads: %i\n' % (PROCESS_THREADS * PROCESSES)
     p = ProgressBar(RUN_TIME)
     if sys.platform.startswith('win'):
         print p, '\r',
