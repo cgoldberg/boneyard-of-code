@@ -156,7 +156,6 @@ class ResultWriter(threading.Thread):
                     f.flush()
                     #print '%.3f' % latency
                 except Queue.Empty:
-                    # re-check queue for messages every x sec
                     time.sleep(.1)
 
 
