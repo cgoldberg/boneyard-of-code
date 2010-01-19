@@ -23,9 +23,11 @@ br.set_handle_robots(False)
 br.addheaders = [('User-agent', 'Mozilla/5.0 Compatible')]
 
 resp = br.open('http://www.python.org')
-html = resp.read()
-#print html
+resp.read()
+#print resp.code
+#print resp.msg
 #print resp.info()
+#print resp.get_data()
 
 for f in br.forms():
     print f
