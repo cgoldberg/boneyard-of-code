@@ -5,12 +5,9 @@
 
 
 import mechanize
-import cookielib
 
 
 br = mechanize.Browser()
-cj = cookielib.LWPCookieJar()
-br.set_cookiejar(cj)
 
 br.set_handle_equiv(True)
 #br.set_handle_gzip(True)
