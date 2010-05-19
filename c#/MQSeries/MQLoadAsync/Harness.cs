@@ -158,13 +158,10 @@ class QueueUnloader
 
         while (true)
         {          
-            try
-			{
-				string receivedMsg = mq.GetMessageOffQueue();
-			}
-			catch (Exception)
-			{
-				Thread.Sleep(this.getPollingTimeMillisecs);
+			string receivedMsg = mq.GetMessageOffQueue();
+            if (!receivedMsg.Equals(""))
+            {
+                Thread.Sleep(this.getPollingTimeMillisecs);
             }
         }
     }
