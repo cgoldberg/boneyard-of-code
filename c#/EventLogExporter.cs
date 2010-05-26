@@ -9,7 +9,7 @@ class EventLogExporter
 {
     static void Main(string[] args)
     {
-        EventLog evtLog = new EventLog("Application");  // Event Log type
+        EventLog evtLog = new EventLog("Application"); 
         evtLog.MachineName = ".";  // dot is local machine
         
         foreach (EventLogEntry evtEntry in evtLog.Entries)
