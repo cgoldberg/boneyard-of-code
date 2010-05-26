@@ -11,15 +11,15 @@ class Harness
     static void Main()
     {
         // load settings from App.config
-		int numThreads = Int32.Parse(ConfigurationManager.AppSettings["numThreads"]);
-		int waitTimeMillisecs = Int32.Parse(ConfigurationManager.AppSettings["waitTimeMillisecs"]);
-		int iterations = Int32.Parse(ConfigurationManager.AppSettings["iterations"]);
+        int numThreads = Int32.Parse(ConfigurationManager.AppSettings["numThreads"]);
+        int waitTimeMillisecs = Int32.Parse(ConfigurationManager.AppSettings["waitTimeMillisecs"]);
+        int iterations = Int32.Parse(ConfigurationManager.AppSettings["iterations"]);
 
         List<Worker> workers = new List<Worker>();
 
         for (int i = 0; i < numThreads; i++)
         {
-			Worker worker = new Worker(iterations, waitTimeMillisecs);
+            Worker worker = new Worker(iterations, waitTimeMillisecs);
             workers.Add(worker);
             ThreadStart job = new ThreadStart(worker.Run);
             Thread t = new Thread(job);

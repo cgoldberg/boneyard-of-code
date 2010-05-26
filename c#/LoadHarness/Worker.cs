@@ -6,7 +6,7 @@ using System.Threading;
 class Worker
 {
     private int iterations;
-	private int waitTimeMillisecs;
+    private int waitTimeMillisecs;
 
     private long numIterations;
     public long NumIterations { get { return numIterations; } }
