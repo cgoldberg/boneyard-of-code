@@ -8,9 +8,9 @@ using System.Threading;
 
 class Worker
 {
-	private string connectionString;
-	private long iterations;
-	private int waitTimeMillisecs;
+    private string connectionString;
+    private long iterations;
+    private int waitTimeMillisecs;
 
     private long numIterations;
     public long NumIterations { get { return numIterations; } }
@@ -21,7 +21,7 @@ class Worker
     {
         this.connectionString = connectionString;
         this.iterations = iterations;
-		this.waitTimeMillisecs = waitTimeMillisecs;
+        this.waitTimeMillisecs = waitTimeMillisecs;
     }
 
 	
@@ -35,7 +35,7 @@ class Worker
         for (int i = 0; i < this.iterations; i++)
         {
             using (SqlConnection connection = new SqlConnection(this.connectionString))
-			{
+            {
                 connection.Open(); 
                 
                 string command = "exec spMySproc @Foo=1,@Bar='baz'";
@@ -44,7 +44,7 @@ class Worker
                 reader.Close();
             }
 
-			numIterations++;
+            numIterations++;
             Thread.Sleep(this.waitTimeMillisecs);
         }
     }
