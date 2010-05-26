@@ -1,3 +1,5 @@
+// Corey Goldberg - 20010
+
 using System;
 using IBM.WMQ;
 
