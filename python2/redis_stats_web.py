@@ -19,11 +19,14 @@ REDIS_DB = 0
 class WebRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/stats':
-            self.send_response(200)
-            self.end_headers()
-            info = self.get_stats() 
-            output = self.format_output(info)
-            self.wfile.write(output)
+            try:
+                info = self.get_stats() 
+                output = self.format_output(info)
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(output)
+            except Exception:
+                self.send_error(500)
         else: 
             self.send_error(404)
             
