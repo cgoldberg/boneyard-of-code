@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Corey Goldberg - 2010
 # print a stats report from membase key-value database (membase.org)
+# requires python-memcached
 
 
 import memcache
