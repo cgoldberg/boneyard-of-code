@@ -62,7 +62,7 @@ for node_stats in mc.get_stats():
 # pointer_size                           64
 # rejected_conns                          0
 # rusage_system                   65.660000
-# usage_user                    113.320000
+# rusage_user                    113.320000
 # threads                                 4
 # time                           1278257466
 # total_connections                      16
