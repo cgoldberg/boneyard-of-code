@@ -39,7 +39,7 @@ for node_stats in mc.get_stats():
 # bytes_written                    77239947
 # cas_badval                              0
 # cas_hits                                0
-# as_misses                              0
+# cas_misses                              0
 # cmd_flush                               1
 # cmd_get                            370229
 # cmd_set                            380230
