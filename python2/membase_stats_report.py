@@ -13,15 +13,15 @@ mc = memcache.Client(['%s:11211' % HOST])
 
 for node_stats in mc.get_stats():
     server, stats = node_stats
-    print server.rjust(30)
-    print '--------------------------'.rjust(30), '--------------'.rjust(15)
+    print server
+    print '--------------------------'.ljust(25), '--------------'.rjust(15)
     for stat_name, value in sorted(stats.iteritems()):
         if not stat_name.startswith('ep'):
             if stat_name not in ('libevent', 'version'):
-                print stat_name.rjust(30), value.rjust(15)
-    print '--------------------------'.rjust(30), '--------------'.rjust(15)
+                print stat_name.ljust(25), value.rjust(15)
+    print '--------------------------'.ljust(25), '--------------'.rjust(15)
     for stat_name, value in sorted(stats.iteritems()):
         if stat_name.startswith('ep'):
             if stat_name not in ('ep_dbname', 'ep_version'):
-                print stat_name.rjust(30), value.rjust(15)
+                print stat_name.ljust(25), value.rjust(15)
                 
