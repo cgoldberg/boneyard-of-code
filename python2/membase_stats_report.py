@@ -13,13 +13,14 @@ mc = memcache.Client(['%s:11211' % HOST])
 
 for node_stats in mc.get_stats():
     server, stats = node_stats
+    print '-----------------------------------------'
     print server
-    print '--------------------------'.ljust(25), '--------------'.rjust(15)
+    print '-----------------------------------------'
     for stat_name, value in sorted(stats.iteritems()):
         if not stat_name.startswith('ep'):
             if stat_name not in ('libevent', 'version'):
                 print stat_name.ljust(25), value.rjust(15)
-    print '--------------------------'.ljust(25), '--------------'.rjust(15)
+    print '-----------------------------------------'
     for stat_name, value in sorted(stats.iteritems()):
         if stat_name.startswith('ep'):
             if stat_name not in ('ep_dbname', 'ep_version'):
@@ -31,8 +32,9 @@ for node_stats in mc.get_stats():
 # sample output:
 # 
 # >python membase_stats_report.py
+# -----------------------------------------
 # 127.0.0.1:11211 (1)
-# --------------------------  --------------
+# -----------------------------------------
 # auth_cmds                               0
 # auth_errors                             0
 # bytes_read                       81754885
@@ -67,7 +69,7 @@ for node_stats in mc.get_stats():
 # time                           1278257466
 # total_connections                      16
 # uptime                                592
-# --------------------------  --------------
+# -----------------------------------------
 # ep_commit_time                          1
 # ep_data_age                           286
 # ep_data_age_highwat                   286
