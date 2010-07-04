@@ -17,11 +17,11 @@ for node_stats in mc.get_stats():
     print '--------------------------'.rjust(30), '--------------'.rjust(15)
     for stat_name, value in sorted(stats.iteritems()):
         if not stat_name.startswith('ep'):
-            if not stat_name in ('libevent', 'version'):
+            if stat_name not in ('libevent', 'version'):
                 print stat_name.rjust(30), value.rjust(15)
     print '--------------------------'.rjust(30), '--------------'.rjust(15)
     for stat_name, value in sorted(stats.iteritems()):
         if stat_name.startswith('ep'):
-            if not stat_name == 'ep_dbname':
+            if stat_name not in ('ep_dbname', 'ep_version'):
                 print stat_name.rjust(30), value.rjust(15)
                 
