@@ -14,10 +14,10 @@ import subprocess
 
 # Config Settings
 HOST = '127.0.0.1'
-INTERVAL = 30
+INTERVAL = 30  # secs
 STAT = 'curr_items'
-DATASOURCE_TYPE = 'GAUGE'  #GAUGE or COUNTER
-GRAPH_MINS = [60, 180]
+DATASOURCE_TYPE = 'GAUGE'  # 'GAUGE' or 'COUNTER'
+GRAPH_MINS = [60, 180]  # an entry for each graph/png file
 
 
 
