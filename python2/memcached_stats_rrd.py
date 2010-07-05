@@ -15,7 +15,7 @@ import subprocess
 # Config Settings
 HOST = '127.0.0.1'
 INTERVAL = 30  # secs
-STAT = 'curr_items'
+STAT = 'curr_items'  # memcached/membase stat to monitor
 DATASOURCE_TYPE = 'GAUGE'  # 'GAUGE' or 'COUNTER'
 GRAPH_MINS = [60, 180]  # an entry for each graph/png file
 
@@ -36,7 +36,6 @@ def main():
             print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), STAT, value
             rrd.update(value)
             for mins in GRAPH_MINS:
-                rrd.graph(mins)
                 rrd.graph(mins)
             time.sleep(INTERVAL)
         
