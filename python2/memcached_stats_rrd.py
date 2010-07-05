@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Corey Goldberg - 2010
 # monitor/graph stats from memcached or membase
+# generates .png images of plots/stats
 # requires python-memcached and rrdtool
 
 
