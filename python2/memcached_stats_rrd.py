@@ -81,7 +81,6 @@ class RRD(object):
         start_time = 'now-%s' % (mins * 60)  
         output_filename = '%s_%i.png' % (self.rrd_name, mins)
         end_time = 'now'
-        ds_name = 'ds'
         cur_date = time.strftime('%m/%d/%Y %H\:%M\:%S', time.localtime())    
         cmd = [self.rrd_exe, 'graph', self.subdir + output_filename]
         cmd.append('COMMENT:\\s')
