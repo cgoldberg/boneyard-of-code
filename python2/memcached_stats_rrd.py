@@ -8,6 +8,7 @@
 import memcache
 import os.path
 import subprocess
+import time
 
 
 
@@ -22,19 +23,27 @@ GRAPH_MINS = [60, 180]  # an entry for each graph/png file
 
 def main():
     print 'connecting to memcached...'
-    mc = memcache.Client(['%s:11211' % HOST])
+
+    try:
+        mc = memcache.Client(['%s:11211' % HOST])
+        all_stats = mc.get_stats()
+    except Exception:
+        all_stats = []
     
-    for node_stats in mc.get_stats():
-        server, stats = node_stats
-        rrd_name = '%s_%s.rrd' % (HOST, STAT)
-        rrd = RRD(rrd_name)
-        if not os.path.exists(rrd_name):
-            rrd.create(INTERVAL, DATASOURCE_TYPE)
-        value = stats[STAT]
-        print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), STAT, value
-        rrd.update(value)
-        for mins in GRAPH_MINS:
-            rrd.graph(mins)
+    if not all_stats:
+        print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), STAT, 'error'
+    else:
+        for node_stats in all_stats:
+            server, stats = node_stats
+            rrd_name = '%s_%s.rrd' % (HOST, STAT)
+            rrd = RRD(rrd_name)
+            if not os.path.exists(rrd_name):
+                rrd.create(INTERVAL, DATASOURCE_TYPE)
+            value = stats[STAT]
+            print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), STAT, value
+            rrd.update(value)
+            for mins in GRAPH_MINS:
+                rrd.graph(mins)
         
 
 
