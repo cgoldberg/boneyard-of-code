@@ -7,7 +7,6 @@
 
 import memcache
 import os.path
-import time
 import subprocess
 
 
@@ -25,19 +24,17 @@ def main():
     print 'connecting to memcached...'
     mc = memcache.Client(['%s:11211' % HOST])
     
-    while True:
-        for node_stats in mc.get_stats():
-            server, stats = node_stats
-            rrd_name = '%s_%s.rrd' % (HOST, STAT)
-            rrd = RRD(rrd_name)
-            if not os.path.exists(rrd_name):
-                rrd.create(INTERVAL, DATASOURCE_TYPE)
-            value = stats[STAT]
-            print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), STAT, value
-            rrd.update(value)
-            for mins in GRAPH_MINS:
-                rrd.graph(mins)
-            time.sleep(INTERVAL)
+    for node_stats in mc.get_stats():
+        server, stats = node_stats
+        rrd_name = '%s_%s.rrd' % (HOST, STAT)
+        rrd = RRD(rrd_name)
+        if not os.path.exists(rrd_name):
+            rrd.create(INTERVAL, DATASOURCE_TYPE)
+        value = stats[STAT]
+        print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), STAT, value
+        rrd.update(value)
+        for mins in GRAPH_MINS:
+            rrd.graph(mins)
         
 
 
