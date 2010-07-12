@@ -36,11 +36,11 @@ def main():
             server, stats = node_stats
             host = server.split(':')[0]
             rrd_name = '%s_%s.rrd' % (host, stat)
-            rrd = RRD(rrd_name, server, stat)
+            rrd = RRD(rrd_name, host, stat)
             if not os.path.exists(rrd_name):
                 rrd.create(INTERVAL, datasource_type)
             value = stats[stat]
-            print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), server, stat, value
+            print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), host, stat, value
             rrd.update(value)
             for mins in GRAPH_MINS:
                 rrd.graph(mins)
@@ -54,8 +54,8 @@ class RRD(object):
         self.rrd_name = rrd_name
         self.rrd_exe = 'rrdtool'
         self.subdir = ''        
-        self.graph_width = 500
-        self.graph_height = 175
+        self.graph_width = 300
+        self.graph_height = 125
         
 
     def create(self, interval, ds_type='GAUGE'):  
