@@ -16,8 +16,7 @@ import time
 # Config Settings
 HOST = '127.0.0.1'
 INTERVAL = 30  # secs
-STAT = 'curr_items'  # memcached/membase stat to monitor
-DATASOURCE_TYPE = 'GAUGE'  # 'GAUGE' or 'COUNTER'
+STATS = [('curr_items', 'GAUGE'), ('bytes_written', 'COUNTER')]  
 GRAPH_MINS = [60, 180]  # an entry for each graph/png file
 
 
@@ -29,25 +28,28 @@ def main():
         mc = memcache.Client(['%s:11211' % HOST])
         all_stats = mc.get_stats()
     except Exception:
-        print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), STAT, 'error'
+        print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), 'error'
         sys.exit(1)
         
     for node_stats in all_stats:
-        rrd_name = '%s_%s.rrd' % (HOST, STAT)
-        rrd = RRD(rrd_name)
-        if not os.path.exists(rrd_name):
-            rrd.create(INTERVAL, DATASOURCE_TYPE)
-        server, stats = node_stats
-        value = stats[STAT]
-        print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), STAT, value
-        rrd.update(value)
-        for mins in GRAPH_MINS:
-            rrd.graph(mins)
+        for (stat, datasource_type) in STATS:
+            rrd_name = '%s_%s.rrd' % (HOST, stat)
+            rrd = RRD(rrd_name, HOST, stat)
+            if not os.path.exists(rrd_name):
+                rrd.create(INTERVAL, datasource_type)
+            server, stats = node_stats
+            value = stats[stat]
+            print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), stat, value
+            rrd.update(value)
+            for mins in GRAPH_MINS:
+                rrd.graph(mins)
         
 
 
 class RRD(object):
-    def __init__(self, rrd_name):
+    def __init__(self, rrd_name, host, stat):
+        self.host = host
+        self.stat = stat
         self.rrd_name = rrd_name
         self.rrd_exe = 'rrdtool'
         self.subdir = ''        
@@ -91,7 +93,7 @@ class RRD(object):
         cmd.append('COMMENT:\\s')
         cmd.append('COMMENT:%s    ' % cur_date)
         cmd.append('DEF:ds=%s:ds:AVERAGE' % self.rrd_name)
-        cmd.append('AREA:ds#FF6666:%s  ' % STAT)
+        cmd.append('AREA:ds#FF6666:%s  ' % self.stat)
         cmd.append('VDEF:dslast=ds,LAST')
         cmd.append('VDEF:dsavg=ds,AVERAGE')
         cmd.append('VDEF:dsmin=ds,MINIMUM')
@@ -106,8 +108,8 @@ class RRD(object):
         cmd.append('GPRINT:dsmax:max %.1lf%S    ')
         cmd.append('COMMENT:\\s')
         cmd.append('COMMENT:\\s')
-        cmd.append('--title=Memcached Node %s' % HOST)
-        cmd.append('--vertical-label=%s' % STAT)
+        cmd.append('--title=Memcached Node %s' % self.host)
+        cmd.append('--vertical-label=%s' % self.stat)
         cmd.append('--start=%s' % start_time)
         cmd.append('--end=%s' % end_time)
         cmd.append('--width=%i' % self.graph_width)
