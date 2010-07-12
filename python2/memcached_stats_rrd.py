@@ -14,7 +14,7 @@ import time
 
 
 # Config Settings
-HOST = '127.0.0.1'
+NODES = ('192.68.1.3:11211', '192.68.1.4:11211',) 
 INTERVAL = 30  # secs
 STATS = [('curr_items', 'GAUGE'), ('bytes_written', 'COUNTER')]  
 GRAPH_MINS = [60, 180]  # an entry for each graph/png file
@@ -25,7 +25,7 @@ def main():
     print 'connecting to memcached...'
 
     try:
-        mc = memcache.Client(['%s:11211' % HOST])
+        mc = memcache.Client(NODES)
         all_stats = mc.get_stats()
     except Exception:
         print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), 'error'
@@ -33,13 +33,14 @@ def main():
         
     for node_stats in all_stats:
         for (stat, datasource_type) in STATS:
-            rrd_name = '%s_%s.rrd' % (HOST, stat)
-            rrd = RRD(rrd_name, HOST, stat)
+            server, stats = node_stats
+            host = server.split(':')[0]
+            rrd_name = '%s_%s.rrd' % (host, stat)
+            rrd = RRD(rrd_name, server, stat)
             if not os.path.exists(rrd_name):
                 rrd.create(INTERVAL, datasource_type)
-            server, stats = node_stats
             value = stats[stat]
-            print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), stat, value
+            print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), server, stat, value
             rrd.update(value)
             for mins in GRAPH_MINS:
                 rrd.graph(mins)
@@ -47,8 +48,8 @@ def main():
 
 
 class RRD(object):
-    def __init__(self, rrd_name, host, stat):
-        self.host = host
+    def __init__(self, rrd_name, node, stat):
+        self.node = node
         self.stat = stat
         self.rrd_name = rrd_name
         self.rrd_exe = 'rrdtool'
@@ -108,7 +109,7 @@ class RRD(object):
         cmd.append('GPRINT:dsmax:max %.1lf%S    ')
         cmd.append('COMMENT:\\s')
         cmd.append('COMMENT:\\s')
-        cmd.append('--title=Memcached Node %s' % self.host)
+        cmd.append('--title=Memcached Node %s' % self.node)
         cmd.append('--vertical-label=%s' % self.stat)
         cmd.append('--start=%s' % start_time)
         cmd.append('--end=%s' % end_time)
