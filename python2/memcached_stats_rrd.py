@@ -14,8 +14,8 @@ import time
 
 
 # Config Settings
-NODES = ('192.68.1.3:11211', '192.68.1.4:11211',) 
-INTERVAL = 30  # secs
+NODES = ('192.68.1.3:11211', '192.68.1.4:11211') 
+INTERVAL = 60  # secs
 STATS = [('curr_items', 'GAUGE'), ('bytes_written', 'COUNTER')]  
 GRAPH_MINS = [60, 180]  # an entry for each graph/png file
 
