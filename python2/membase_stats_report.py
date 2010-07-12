@@ -7,9 +7,9 @@
 import memcache
 
 
-HOST = '127.0.0.1'
+NODES = ('127.0.0.1:11211',) 
 
-mc = memcache.Client(['%s:11211' % HOST])
+mc = memcache.Client(NODES)
 
 for node_stats in mc.get_stats():
     server, stats = node_stats
