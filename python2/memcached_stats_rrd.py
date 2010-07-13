@@ -2,7 +2,7 @@
 #  Corey Goldberg - 2010
 #    - monitor and graph stats from memcached or membase
 #    - generates .png images of plots/stats
-#    - run this script at a set interval with a task/job scheduler (cron, win task scheduler, etc)
+#    - run this script at regular intervals with a task/job scheduler
 #    - requires python 2.x, python-memcached, rrdtool
 
 
