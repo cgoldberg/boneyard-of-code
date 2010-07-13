@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 #  Corey Goldberg - 2010
-#    - monitor/graph stats from memcached or membase
+#    - monitor and graph stats from memcached or membase
 #    - generates .png images of plots/stats
-#    - requires python-memcached and rrdtool
+#    - run this script at a set interval with a task/job scheduler (cron, win task scheduler, etc)
+#    - requires python 2.x, python-memcached, rrdtool
+
 
 
 import memcache
