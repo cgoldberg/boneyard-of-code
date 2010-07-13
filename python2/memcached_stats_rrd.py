@@ -57,7 +57,7 @@ class RRD(object):
         self.rrd_exe = 'rrdtool'
         self.graph_dir = ''        
         self.graph_width = 480
-        self.graph_height = 150
+        self.graph_height = 160
         
 
     def create(self, interval, ds_type='GAUGE'):  
