@@ -14,10 +14,11 @@ import time
 
 
 # Config Settings
-NODES = ('192.68.1.3:11211', '192.68.1.4:11211') 
+NODES = ('192.168.1.3:11211', '192.168.1.4:11211') 
 INTERVAL = 60  # secs
 STATS = [('curr_items', 'GAUGE'), ('bytes_written', 'COUNTER')]  
 GRAPH_MINS = [60, 180]  # an entry for each graph/png file
+GRAPH_DIR = '/var/www/'
 
 
 
@@ -37,6 +38,7 @@ def main():
             host = server.split(':')[0]
             rrd_name = '%s_%s.rrd' % (host, stat)
             rrd = RRD(rrd_name, host, stat)
+            rrd.graph_dir = GRAPH_DIR
             if not os.path.exists(rrd_name):
                 rrd.create(INTERVAL, datasource_type)
             value = stats[stat]
@@ -53,7 +55,7 @@ class RRD(object):
         self.stat = stat
         self.rrd_name = rrd_name
         self.rrd_exe = 'rrdtool'
-        self.subdir = ''        
+        self.graph_dir = ''        
         self.graph_width = 480
         self.graph_height = 150
         
@@ -90,7 +92,7 @@ class RRD(object):
         output_filename = '%s_%i.png' % (self.rrd_name, mins)
         end_time = 'now'
         cur_date = time.strftime('%m/%d/%Y %H\:%M\:%S', time.localtime())    
-        cmd = [self.rrd_exe, 'graph', self.subdir + output_filename]
+        cmd = [self.rrd_exe, 'graph', self.graph_dir + output_filename]
         cmd.append('COMMENT:\\s')
         cmd.append('COMMENT:%s    ' % cur_date)
         cmd.append('DEF:ds=%s:ds:AVERAGE' % self.rrd_name)
