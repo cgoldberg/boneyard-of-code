@@ -20,7 +20,7 @@ NODES = ('192.168.1.3:11211', '192.168.1.4:11211')
 INTERVAL = 60  # secs
 STATS = (('curr_items', 'GAUGE'), ('bytes_written', 'COUNTER'))  # (stat name, rrd datasource type)
 GRAPH_MINS = (60, 180)  # timespans for graph/png files
-GRAPH_DIR = '/var/www/'
+GRAPH_DIR = '/var/www/'  # output directory
 
 
 
