@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #  Corey Goldberg - 2010
-#    - monitor and graph stats from memcached or membase
+#    - monitors and graphs stats from memcached or membase
+#    - stores data in RRD (round-robin database)
 #    - generates .png images of plots/stats
 #    - run this script at regular intervals with a task/job scheduler
 #    - requires python 2.x, python-memcached, rrdtool
