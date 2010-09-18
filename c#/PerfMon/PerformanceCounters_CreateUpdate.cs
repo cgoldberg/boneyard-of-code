@@ -6,6 +6,8 @@
 *   Updates the Counters with random values (0-100) every 2 secs.   
 */
 
+
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,7 +22,8 @@ class Program
         string categoryName = "Sample Perf Counters";
         string[] counterNames = {"Counter 1", "Counter 2"};
 
-
+        
+        
         CounterCreationDataCollection counters = new CounterCreationDataCollection();
 
         foreach (string counterName in counterNames) 
@@ -36,6 +39,7 @@ class Program
         PerformanceCounterCategory.Create(categoryName, "", PerformanceCounterCategoryType.SingleInstance, counters);
 
 
+        
         List<PerformanceCounter> perfCounters = new List<PerformanceCounter>();
 
         foreach (string counterName in counterNames) 
