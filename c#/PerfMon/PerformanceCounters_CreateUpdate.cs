@@ -7,8 +7,10 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+
 
 
 class Program
@@ -34,16 +36,20 @@ class Program
         PerformanceCounterCategory.Create(categoryName, "", PerformanceCounterCategoryType.SingleInstance, counters);
 
 
+        List<PerformanceCounter> perfCounters = new List<PerformanceCounter>();
+
+        foreach (string counterName in counterNames) 
+        {
+            perfCounters.Add(new PerformanceCounter(categoryName, counterName, false));
+        }
+
         Random rand = new Random();
 
         while (true)
-        {
-            foreach (string counterName in counterNames) 
+        {    
+            foreach (PerformanceCounter perfCounter in perfCounters) 
             {	
-                using (PerformanceCounter perfCounter = new PerformanceCounter(categoryName, counterName, false))
-                {
-                    perfCounter.RawValue = rand.Next(101);
-                }
+                perfCounter.RawValue = rand.Next(101);
             }
 
             Thread.Sleep(2000);
