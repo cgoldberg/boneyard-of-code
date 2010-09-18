@@ -15,7 +15,7 @@ using System.Threading;
 
 class Program
 {
-    static void Main()
+    public static void Main()
     {
         string categoryName = "Sample Perf Counters";
         string[] counterNames = {"Counter 1", "Counter 2"};
