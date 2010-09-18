@@ -17,37 +17,36 @@ class Program
     {
         string categoryName = "Sample Perf Counters";
         string[] counterNames = {"Counter 1", "Counter 2"};
-		
-		
-		CounterCreationDataCollection counters = new CounterCreationDataCollection();
+
+
+        CounterCreationDataCollection counters = new CounterCreationDataCollection();
 
         foreach (string counterName in counterNames) 
-		{
-			counters.Add(new CounterCreationData(counterName, "", PerformanceCounterType.NumberOfItems64));
-		}
-		
-		if (PerformanceCounterCategory.Exists(categoryName))
-		{
+        {
+            counters.Add(new CounterCreationData(counterName, "", PerformanceCounterType.NumberOfItems64));
+        }
+
+        if (PerformanceCounterCategory.Exists(categoryName))
+        {
             PerformanceCounterCategory.Delete(categoryName);
-		}
-		
+        }
+
         PerformanceCounterCategory.Create(categoryName, "", PerformanceCounterCategoryType.SingleInstance, counters);
-		
-		
-		Random rand = new Random();
-		
+
+
+        Random rand = new Random();
+
         while (true)
         {
             foreach (string counterName in counterNames) 
-			{	
-				using (PerformanceCounter perfCounter = new PerformanceCounter(categoryName, counterName, false))
-            	{
-                	perfCounter.RawValue = rand.Next(101);
-            	}
-			}
-			
+            {	
+                using (PerformanceCounter perfCounter = new PerformanceCounter(categoryName, counterName, false))
+                {
+                    perfCounter.RawValue = rand.Next(101);
+                }
+            }
+
             Thread.Sleep(2000);
         }
     }
 }
-
