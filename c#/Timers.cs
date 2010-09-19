@@ -25,10 +25,10 @@ class Program
 
         DateTime stop = DateTime.Now;
 
-        // don't do this. you won't accurate timing
+        // don't do this. you won't get accurate timing
         Console.WriteLine("{0} ms", (stop - start).TotalMilliseconds);
 
-        // definitely don't do this. you won't accurate timing or full timer resolution
+        // definitely don't do this. you won't get accurate timing or full timer resolution
         Console.WriteLine("{0} ms", (stop - start).Milliseconds);
         
 
