@@ -21,7 +21,7 @@ class Program
 
         DateTime start = DateTime.Now;
 
-        // do work here
+            // do timed work here
 
         DateTime stop = DateTime.Now;
 
@@ -37,7 +37,7 @@ class Program
         
         Stopwatch stopWatch = Stopwatch.StartNew();
 
-        // do work here
+            // do timed work here
 
         stopWatch.Stop();
 
@@ -69,4 +69,5 @@ class Program
 
         Console.WriteLine("  Timer is accurate within {0} nanoseconds", nanosecPerTick);
     }
+    
 }
