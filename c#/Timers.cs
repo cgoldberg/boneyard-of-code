@@ -52,22 +52,23 @@ class Program
 
     public static void DisplayTimerProperties()
     {
+        // The Stopwatch measures elapsed time by counting timer ticks in the underlying timer mechanism. 
+        // If the installed hardware and operating system support a high-resolution performance counter, 
+        // then the Stopwatch class uses that counter to measure elapsed time. Otherwise, the Stopwatch 
+        // class uses the system timer (DateTime class) to measure elapsed time.
+        
         if (Stopwatch.IsHighResolution)
-        {
-            Console.WriteLine("Operations timed using the system's high-resolution performance counter.");
-        }
+            Console.WriteLine("Using the system's high-resolution performance counter.");
         else 
-        {
-            Console.WriteLine("Operations timed using the DateTime class.");
-        }
+            Console.WriteLine("Using the DateTime class.");
 
         long frequency = Stopwatch.Frequency;
 
-        Console.WriteLine("  Timer frequency in ticks per second = {0}", frequency);
+        Console.WriteLine("Timer frequency in ticks per second: {0}", frequency);
 
         long nanosecPerTick = (1000L*1000L*1000L) / frequency;
 
-        Console.WriteLine("  Timer is accurate within {0} nanoseconds", nanosecPerTick);
+        Console.WriteLine("Timer is accurate within {0} nanoseconds", nanosecPerTick);
     }
     
 }
