@@ -3,7 +3,6 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Collections.Generic;
 using System.Threading;
 
 
@@ -46,7 +45,7 @@ class Worker
                 reader.Close();
             }
 
-            numIterations++;
+            this.numIterations++;
             Thread.Sleep(this.waitTimeMillisecs);
         }
     }

@@ -26,7 +26,7 @@ class Worker
        
         for (int i = 0; i < this.iterations; i++)
         {
-            numIterations++;
+            this.numIterations++;
             Thread.Sleep(this.waitTimeMillisecs);
         }
     }

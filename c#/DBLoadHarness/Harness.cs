@@ -19,8 +19,8 @@ class Harness
         string userName = ConfigurationManager.AppSettings["userName"];
         string password = ConfigurationManager.AppSettings["password"];
         long iterations = long.Parse(ConfigurationManager.AppSettings["iterations"]); 
-        int waitTimeMillisecs = Int32.Parse(ConfigurationManager.AppSettings["waitTimeMillisecs"]);
-        int numThreads = Int32.Parse(ConfigurationManager.AppSettings["numThreads"]);
+        int waitTimeMillisecs = int.Parse(ConfigurationManager.AppSettings["waitTimeMillisecs"]);
+        int numThreads = int.Parse(ConfigurationManager.AppSettings["numThreads"]);
 
         string connectionString = String.Format("Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3}", server, dbName, userName, password);
 
