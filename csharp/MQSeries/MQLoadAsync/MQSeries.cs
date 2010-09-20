@@ -7,11 +7,11 @@ using IBM.WMQ;
 
 public class MQSeries
 {
-	private string queueName;
+    private string queueName;
     private string replyQueueName;
     private string queueManagerName;
-	
-	private MQQueueManager queueManager;
+
+    private MQQueueManager queueManager;
 
 
     public MQSeries(string queueName, string queueManagerName, string host, string channel, int port)
@@ -21,9 +21,9 @@ public class MQSeries
         MQEnvironment.Port = port;
 
         this.queueName = queueName;
-		this.queueManagerName = queueManagerName;
-		
-		this.queueManager = new MQQueueManager(this.queueManagerName);
+        this.queueManagerName = queueManagerName;
+
+        this.queueManager = new MQQueueManager(this.queueManagerName);
     }
 
 
@@ -32,7 +32,7 @@ public class MQSeries
         MQEnvironment.Hostname = host;
         MQEnvironment.Channel = channel;
         MQEnvironment.Port = port; 
-        
+
         this.queueName = queueName;
         this.replyQueueName = replyQueueName; 
         this.queueManagerName = queueManagerName;
@@ -65,10 +65,10 @@ public class MQSeries
             MQQueue queue = this.queueManager.AccessQueue(this.queueName, MQC.MQOO_INPUT_AS_Q_DEF + MQC.MQOO_FAIL_IF_QUIESCING);
             queueMessage.Format = MQC.MQFMT_STRING;
             queue.Get(queueMessage);
-			
+
             message = queueMessage.ReadString(queueMessage.MessageLength);
-			
-			queue.Close();
+
+            queue.Close();
         }
         catch (MQException mqexp)
         {
