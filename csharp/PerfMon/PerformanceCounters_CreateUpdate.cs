@@ -30,16 +30,28 @@ class Program
         {
             counters.Add(new CounterCreationData(counterName, "", PerformanceCounterType.NumberOfItems64));
         }
-
+    
+    
+        // example of recreating the counters
+    
         if (PerformanceCounterCategory.Exists(categoryName))
         {
             PerformanceCounterCategory.Delete(categoryName);
         }
-
         PerformanceCounterCategory.Create(categoryName, "", PerformanceCounterCategoryType.SingleInstance, counters);
-
-
+    
+    
+        // example of conditionally creating the counters
+    
+        if (!PerformanceCounterCategory.Exists(categoryName))
+        {
+            PerformanceCounterCategory.Create(categoryName, "", PerformanceCounterCategoryType.SingleInstance, counters);
+        }
         
+    
+    
+        // update the counters (don't create a new instance each time you update)
+    
         List<PerformanceCounter> perfCounters = new List<PerformanceCounter>();
 
         foreach (string counterName in counterNames) 
