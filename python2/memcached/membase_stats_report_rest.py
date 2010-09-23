@@ -2,6 +2,7 @@
 # Corey Goldberg - 2010
 # print a 60 sec snapshot report of bucket statistics from Membase (Northscale Management REST API)
 
+
 import json
 import urllib
 
