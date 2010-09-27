@@ -1,0 +1,56 @@
+<html>
+<head>
+    <title>Membase Node Stats</title>
+    <meta http-equiv="refresh" content="60">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+    <div>
+    <ul class="menu">
+        <li class="top"><a href="../stats_membase.html" class="top_link"><span>Home</span></a></li>
+        <li class="top"><a href="stats_membase_60.html" class="top_link"><span>Last Hour</span></a></li>
+        <li class="top"><a href="stats_membase_240.html" class="top_link"><span>Last 4 Hours</span></a></li>
+        <li class="top"><a href="stats_membase_1440.html" class="top_link"><span>Last 24 Hours</span></a></li>
+    </ul>
+    </div>
+        
+    <h1>Membase Node Stats</h1> 
+    
+    <h2>Last Hour (60 mins)</h2>
+    
+    <table>
+        <tr>
+            <td><h3>Current Items</h3></td>
+            <td><h3>Memory Used</h3></td>
+        </tr>
+        <tr>
+            <td><img src="../membase_curr_items.rrd_60.png"></td>
+            <td><img src="../membase_mem_used.rrd_60.png"></td>
+        </tr>
+    </table>
+    
+    <table>
+        <tr>
+            <td><h3>Bytes Read</h3></td>
+            <td><h3>Bytes Written</h3></td>
+        </tr>
+        <tr>
+            <td><img src="../membase_bytes_read.rrd_60.png"></td>
+            <td><img src="../membase_bytes_written.rrd_60.png"></td>
+        </tr>
+    </table>
+    
+    <table>
+        <tr>
+            <td><h3>GET Commands</h3></td>
+            <td><h3>SET Commands</h3></td>
+        </tr>
+        <tr>
+            <td><img src="../membase_cmd_get.rrd_60.png"></td>
+            <td><img src="../membase_cmd_set.rrd_60.png"></td>
+        </tr>
+    </table>
+    
+</body>
+</html>
