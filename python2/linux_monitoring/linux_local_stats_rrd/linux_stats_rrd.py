@@ -71,8 +71,8 @@ def main():
     # store values in rrd and update graphs
     rrd_ops('cpu_percent', cpu_percent, 'GAUGE', 'FF0000', localhost_name, 1000, upper_limit=100)
     rrd_ops('mem_used', mem_used, 'GAUGE', '00FF00', localhost_name, 1024, upper_limit=mem_total)
-    rrd_ops('net_bps_in', rx_bits, 'COUNTER', '6666FF', localhost_name, 1000)
-    rrd_ops('net_bps_out', tx_bits, 'COUNTER', '000099', localhost_name, 1000)
+    rrd_ops('net_bps_in', rx_bits, 'DERIVE', '6666FF', localhost_name, 1000)
+    rrd_ops('net_bps_out', tx_bits, 'DERIVE', '000099', localhost_name, 1000)
     
 
 def net_stats(interface):
@@ -119,7 +119,7 @@ class RRD(object):
         interval = str(interval) 
         interval_mins = float(interval) / 60  
         heartbeat = str(int(interval) * 2)
-        ds_string = ' DS:ds:%s:%s:U:U' % (ds_type, heartbeat)
+        ds_string = ' DS:ds:%s:%s:0:U' % (ds_type, heartbeat)
         cmd_create = ''.join((self.rrd_exe, 
             ' create ', self.rrd_name, ' --step ', interval, ds_string,
             ' RRA:AVERAGE:0.5:1:', str(int(4000 / interval_mins)),

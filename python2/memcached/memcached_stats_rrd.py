@@ -19,7 +19,7 @@ import time
 # Config Settings
 NODES = ('192.168.1.3:11211', '192.168.1.4:11211') 
 INTERVAL = 60  # secs
-STATS = (('curr_items', 'GAUGE'), ('bytes_written', 'COUNTER'))  # (stat name, rrd datasource type)
+STATS = (('curr_items', 'GAUGE'), ('bytes_written', 'DERIVE'))  # (stat name, rrd datasource type)
 GRAPH_MINS = (60, 180)  # timespans for graph/png files
 GRAPH_DIR = '/var/www/'  # output directory
 
@@ -67,7 +67,7 @@ class RRD(object):
         interval = str(interval) 
         interval_mins = float(interval) / 60  
         heartbeat = str(int(interval) * 2)
-        ds_string = ' DS:ds:%s:%s:U:U' % (ds_type, heartbeat)
+        ds_string = ' DS:ds:%s:%s:0:U' % (ds_type, heartbeat)
         cmd_create = ''.join((self.rrd_exe, 
             ' create ', self.rrd_name, ' --step ', interval, ds_string,
             ' RRA:AVERAGE:0.5:1:', str(int(4000 / interval_mins)),
