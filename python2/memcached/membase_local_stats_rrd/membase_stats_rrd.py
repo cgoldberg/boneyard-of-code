@@ -22,7 +22,7 @@ HOST = '192.168.12.171'
 PORT = '11211'
 INTERVAL = 60  # secs
 GRAPH_MINS = (60, 240, 1440)  # timespans for graph/png files
-GRAPH_DIR = '/var/www/membase_stats'  # output directory
+GRAPH_DIR = '/var/www/membase_stats/'  # output directory
 
 
 
