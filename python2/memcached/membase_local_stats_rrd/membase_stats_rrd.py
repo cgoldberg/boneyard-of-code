@@ -38,6 +38,22 @@ def main():
     
     localhost_name = socket.gethostname()
     
+    
+    # set/get a test key to measure latency
+    key = 'test_key_%s' % HOST
+    data = '*' * 30000  # 30kb value
+    
+    start_timer = time.time()
+    mc.set(key, data)
+    stop_timer = time.time()
+    set_latency_ms = (stop_timer - start_timer) * 1000
+
+    start_timer = time.time()
+    mc.get(key)
+    stop_timer = time.time()
+    get_latency_ms = (stop_timer - start_timer) * 1000
+
+
     # store values in rrd and update graphs
     rrd_ops('membase_curr_items', node_stats['curr_items'], 'GAUGE', 'FF9933', localhost_name, 1000)
     rrd_ops('membase_mem_used', node_stats['mem_used'], 'GAUGE', '00FF00', localhost_name, 1024)
@@ -45,6 +61,9 @@ def main():
     rrd_ops('membase_bytes_written', node_stats['bytes_written'], 'DERIVE', '000099', localhost_name, 1024)
     rrd_ops('membase_cmd_get', node_stats['cmd_get'], 'DERIVE', 'FF66FF', localhost_name, 1000)
     rrd_ops('membase_cmd_set', node_stats['cmd_set'], 'DERIVE', '990099', localhost_name, 1000)
+    rrd_ops('membase_set_latency', set_latency_ms, 'GAUGE', '66FFFF', localhost_name, 1000)
+    rrd_ops('membase_get_latency', get_latency_ms, 'GAUGE', '009999', localhost_name, 1000)
+    
 
         
 def rrd_ops(stat, value, ds_type, color, title, base, upper_limit=None):
