@@ -7,7 +7,7 @@ import subprocess
 
 
 def main():
-    rx_bytes, tx_bytes = net_stats('eth0')
+    rx_bytes, tx_bytes = net_stats()
     
     print '%s bytes received' % rx_bytes
     print '%s bytes sent' % tx_bytes
@@ -17,7 +17,7 @@ def main():
     
     
     
-def net_stats(interface):
+def net_stats():
     output = subprocess.Popen(['net', 'statistics', 'workstation'], stdout=subprocess.PIPE, shell=True).communicate()[0]
     for line in output.splitlines():
         if 'Bytes received' in line:
