@@ -18,7 +18,7 @@ def main():
     
     
 def net_stats(interface):
-    output = subprocess.Popen(['net', 'statistics', 'workstation'], stdout=subprocess.PIPE).communicate()[0]
+    output = subprocess.Popen(['net', 'statistics', 'workstation'], stdout=subprocess.PIPE, shell=True).communicate()[0]
     for line in output.splitlines():
         if 'Bytes received' in line:
             rx_bytes = int(line.split()[2])
