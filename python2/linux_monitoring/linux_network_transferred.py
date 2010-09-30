@@ -13,6 +13,10 @@ def main():
     print '%s bytes received' % rx_bytes
     print '%s bytes sent' % tx_bytes
     
+    print '%s bits received' % (rx_bytes * 8)
+    print '%s bits sent' % (tx_bytes * 8) 
+    
+    
     rx_bytes, tx_bytes = net_stats_ifconfig('eth0')
     print '%s bytes received' % rx_bytes
     print '%s bytes sent' % tx_bytes
