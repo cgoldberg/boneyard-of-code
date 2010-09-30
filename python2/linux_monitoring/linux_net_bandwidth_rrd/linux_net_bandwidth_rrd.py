@@ -11,8 +11,6 @@
 #    - requires python 2.x, rrdtool
 #   
 #    stats collected:
-#      - cpu_percent: processor utilization
-#      - mem_used: physical memory usage
 #      - net_bps_in: network throughput (bps in)
 #      - net_bps_out: network throughput (bps out)
 #
