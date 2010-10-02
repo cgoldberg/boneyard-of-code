@@ -8,7 +8,7 @@
 #    - stores data in RRD (round-robin database)
 #    - generates .png images of plots/stats
 #    - run this script at regular intervals with a task/job scheduler
-#    - requires python 2.x, python-psutil, rrdtool
+#    - requires python 2.x, rrdtool
 #   
 #    stats collected:
 #      - cpu_percent: processor utilization
