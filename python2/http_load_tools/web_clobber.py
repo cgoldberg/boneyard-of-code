@@ -1,0 +1,191 @@
+#!/usr/bin/env python
+#  Copyright (c) 2009-2010 Corey Goldberg (corey@goldb.org)
+#  License: GNU GPLv3
+#
+#  Multi-Process, Multi-Thread, HTTP Load Generator
+#
+#  requires Python 2.6+
+
+
+import httplib
+import multiprocessing
+import os
+import Queue
+import sys
+import threading
+import time
+import urlparse
+
+
+
+URL = 'http://www.example.com/'
+PROCESSES = 2
+PROCESS_THREADS = 2
+INTERVAL = 1  # secs
+RUN_TIME = 5  # secs
+RAMPUP = 0  # secs
+
+
+
+def main():
+    q = multiprocessing.Queue()
+    rw = ResultWriter(q)
+    rw.setDaemon(True)
+    rw.start()
+    
+    start_time = time.time() 
+    
+    managers = [] 
+    for i in range(PROCESSES):
+        manager = LoadManager(q, start_time, i, PROCESS_THREADS, INTERVAL, RUN_TIME, RAMPUP)
+        managers.append(manager)
+    for manager in managers:
+        manager.start()
+    
+    print '\n  processes:  %i' % PROCESSES
+    print '  threads: %i\n' % (PROCESS_THREADS * PROCESSES)
+    p = ProgressBar(RUN_TIME)
+    if sys.platform.startswith('win'):
+        print p, '\r',
+    else:
+        print p
+        sys.stdout.write(chr(27) + '[A' )
+    elapsed = time.time() - start_time
+    while [manager for manager in managers if manager.is_alive()] != []:
+        p.update_time(elapsed)
+        if sys.platform.startswith('win'):
+            print p, '\r',
+        else:
+            print p
+            sys.stdout.write(chr(27) + '[A' )
+        time.sleep(1)
+        elapsed = time.time() - start_time
+    if not sys.platform.startswith('win'):
+        print
+
+class LoadManager(multiprocessing.Process):
+    def __init__(self, queue, start_time, process_num, num_threads=1, interval=0, run_time=10, rampup=0):
+        multiprocessing.Process.__init__(self)
+        self.q = queue
+        self.start_time = start_time
+        self.process_num = process_num
+        self.num_threads = num_threads
+        self.interval = interval
+        self.run_time = run_time
+        self.rampup = rampup
+        self.parsed_url = urlparse.urlsplit(URL)
+        
+    def run(self):
+        self.running = True
+        thread_refs = []
+        for i in range(self.num_threads):
+            spacing = float(self.rampup) / float(self.num_threads)
+            if i > 0:
+                time.sleep(spacing)
+            agent_thread = LoadAgent(self.q, self.parsed_url, self.interval, self.start_time, self.run_time)
+            agent_thread.setDaemon(True)
+            thread_refs.append(agent_thread)
+            #print 'starting process %i, thread %i' % (self.process_num + 1, i + 1)
+            agent_thread.start()            
+        for agent_thread in thread_refs:
+            agent_thread.join()
+        
+
+
+class LoadAgent(threading.Thread):
+    def __init__(self, queue, parsed_url, interval, start_time, run_time):
+        threading.Thread.__init__(self)
+        self.q = queue
+        self.interval = interval
+        self.start_time = start_time
+        self.run_time = run_time
+        self.parsed_url = parsed_url
+        
+        # choose timer to use
+        if sys.platform.startswith('win'):
+            self.default_timer = time.clock
+        else:
+            self.default_timer = time.time
+            
+    def run(self):
+        while True:
+            start = self.default_timer()               
+            try:
+                status = self.send(self.parsed_url)
+            except Exception, e:
+                status = 0
+                print e
+            finish = self.default_timer()
+            latency = finish - start
+            elapsed = time.time() - self.start_time 
+            self.q.put((elapsed, latency, status))
+            if elapsed >= self.run_time:
+                break
+            expire_time = self.interval - latency
+            if expire_time > 0:
+                time.sleep(expire_time)
+           
+    def send(self, parsed_url):
+        if parsed_url.scheme.endswith('s'):
+            conn = httplib.HTTPSConnection(parsed_url.netloc)
+        else:
+            conn = httplib.HTTPConnection(parsed_url.netloc)
+        try:
+            conn.request('GET', parsed_url.path, parsed_url.query)
+            resp = conn.getresponse()
+            resp.read()
+        except Exception, e:
+            raise Exception('Connection Error: %s' % e)
+        finally:
+            conn.close()
+        return resp.status
+    
+
+
+class ResultWriter(threading.Thread):
+    def __init__(self, queue):
+        threading.Thread.__init__(self)
+        self.q = queue
+    
+    def run(self):
+        with open('results.csv', 'w') as f:     
+            while True:
+                try:
+                    elapsed, latency, status = self.q.get(False)
+                    f.write('%.3f,%.3f,%i\n' % (elapsed, latency, status))
+                    f.flush()
+                    #print '%.3f' % latency
+                except Queue.Empty:
+                    time.sleep(.1)
+
+
+
+class ProgressBar:
+    def __init__(self, duration):
+        self.duration = duration
+        self.prog_bar = '[]'
+        self.fill_char = '='
+        self.width = 40
+        self.__update_amount(0)
+    
+    def __update_amount(self, new_amount):
+        percent_done = int(round((new_amount / 100.0) * 100.0))
+        all_full = self.width - 2
+        num_hashes = int(round((percent_done / 100.0) * all_full))
+        self.prog_bar = '[' + self.fill_char * num_hashes + ' ' * (all_full - num_hashes) + ']'
+        pct_place = (len(self.prog_bar) / 2) - len(str(percent_done))
+        pct_string = '%i%%' % percent_done
+        self.prog_bar = self.prog_bar[0:pct_place] + \
+            (pct_string + self.prog_bar[pct_place + len(pct_string):])
+        
+    def update_time(self, elapsed_secs):
+        self.__update_amount((elapsed_secs / float(self.duration)) * 100.0)
+        self.prog_bar += '  %ds/%ss' % (elapsed_secs, self.duration)
+        
+    def __str__(self):
+        return str(self.prog_bar)
+        
+        
+        
+if __name__ == '__main__':
+    main()
