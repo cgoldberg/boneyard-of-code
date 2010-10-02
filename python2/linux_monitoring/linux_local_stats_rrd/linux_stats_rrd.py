@@ -32,10 +32,6 @@
 #    prereqs on debian/ubuntu:
 #      - install rrdtool
 #        $ sudo apt-get install rrdtool
-#      - install python-setuptools
-#        $ sudo apt-get install python-setuptools
-#      - install psutil
-#        $ sudo easy_install psutil
 #
 
 
@@ -44,7 +40,6 @@ import os.path
 import socket
 import subprocess
 import time
-import psutil  # http://code.google.com/p/psutil/
 
 
 
@@ -57,12 +52,9 @@ GRAPH_DIR = '/var/www/stats/'
 
 
 def main():  
-    time.sleep(.5)  # allow a time delta for calculating cpu
-
-    cpu_percent = psutil.cpu_percent()
+    cpu_percent = cpu_util()
     
-    mem_used = psutil.used_phymem()
-    mem_total = psutil.TOTAL_PHYMEM
+    mem_used, mem_total = mem_stats()
     
     rx_bits, tx_bits = net_stats(NET_INTERFACE)
     
@@ -81,8 +73,31 @@ def net_stats(interface):
             data = line.split('%s:' % interface)[1].split()
             rx_bits, tx_bits = (int(data[0]) * 8, int(data[8]) * 8)
             return (rx_bits, tx_bits)
-            
-            
+    
+    
+def mem_stats():
+    with open('/proc/meminfo') as f:
+        for line in f:
+            if line.startswith('MemTotal:'):
+                mem_total = int(line.split()[1]) * 1024
+            if line.startswith('MemFree:'):
+                mem_used = mem_total - (int(line.split()[1]) * 1024)
+    return mem_used, mem_total
+    
+
+def cpu_util(sample_duration=1):
+    with open('/proc/stat') as f1:
+        with open('/proc/stat') as f2:
+            line1 = f1.readline()
+            time.sleep(sample_duration)
+            line2 = f2.readline()
+    deltas = [int(b) - int(a) for a, b in zip(line1.split()[1:], line2.split()[1:])]
+    idle_delta = deltas[3]
+    total = sum(deltas)
+    util_pct = 100 * (float(total - idle_delta) / total)
+    return util_pct
+    
+    
 def rrd_ops(stat, value, ds_type, color, title, base, upper_limit=None):
     rrd_name = '%s.rrd' % stat
     rrd = RRD(rrd_name, stat)
