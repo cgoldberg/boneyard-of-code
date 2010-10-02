@@ -12,8 +12,8 @@
     
     
     functions:
-    - cpu_percents(sample_duration=1)
     - cpu_times()
+    - cpu_percents(sample_duration=1)
     - procs_running()
     - procs_blocked()
     - load_avg()
