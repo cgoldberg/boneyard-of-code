@@ -130,7 +130,9 @@ def load_avg():
     
     with open('/proc/loadavg') as f:
         line = f.readline()
+    
     load_avgs = [float(x) for x in line.split()[:3]]
+    
     return load_avgs
         
 
