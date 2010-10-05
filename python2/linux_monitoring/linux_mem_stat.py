@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# Corey Goldberg - 2010
 
 # works with Linux 2.6.x
 # requires Python 2.6+
