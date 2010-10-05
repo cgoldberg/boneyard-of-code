@@ -1,0 +1,56 @@
+<html>
+<head>
+    <title>CPU Mode Stats - Local System</title>
+    <meta http-equiv="refresh" content="60">
+    <style type="text/css">
+        body {
+            background-color: #FFFFFF;
+            color: #000000;
+            font-family: Verdana, sans-serif;
+            font-size: 11px;
+        }
+        p {
+            padding-left: 5px;
+        }
+        h1 {
+            font-size: 16px;
+        }
+        h2 {
+            font-size: 14px;
+            background: #EEEEEE;
+            padding-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CPU Mode Stats - Local System</h1>
+    
+    <p>5-sec CPU sample taken every minute</p>
+    
+    <h2>Processor Modes:</h2>
+
+    <ul>
+        <li><b>idle</b>: idle task</li>
+        <li><b>user</b>: user mode</li>
+        <li><b>nice</b>: user mode with low priority</li>
+        <li><b>system</b>: system/kernel mode</li>       
+        <li><b>iowait</b>: waiting for I/O to complete</li>
+        <li><b>irq</b>: servicing  interrupts</li>
+        <li><b>softirq</b>: servicing softirqs</li>
+    </ul>
+    
+    <hr />
+    
+    <h2>Last Hour (60 mins)</h2>
+    <img src="cpu_modes.rrd_60.png">
+
+    <h2>Last 4 Hours (240 mins)</h2>
+    <img src="cpu_modes.rrd_240.png">
+    
+    <h2>Last 24 Hours (1440 mins)</h2>
+    <img src="cpu_modes.rrd_1440.png">
+    
+    <hr />
+
+</body>
+</html>
