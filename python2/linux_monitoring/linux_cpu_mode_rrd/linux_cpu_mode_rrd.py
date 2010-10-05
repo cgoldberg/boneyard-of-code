@@ -2,7 +2,7 @@
 #
 #  Corey Goldberg - 2010
 #
-#  linux_cpu_mode_rrd - local system monitoring script for linux
+#  linux_cpu_mode_rrd - cpu monitoring script for linux
 #
 #    - monitors and detailed CPU statistics
 #    - stores data in RRD (round-robin database)
