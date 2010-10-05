@@ -15,10 +15,13 @@
 #      - mem_used: physical memory usage
 #      - net_bps_in: network throughput (bps in)
 #      - net_bps_out: network throughput (bps out)
+#      - load_avg: system load average (1 min)
+#      - disk_busy_percent: disk busy doing i/o
 #
 #    instructions:
 #      - configure the script's settings:
 #          - NET_INTERFACE: device to capture network stats on
+#          - DISK: storage device
 #          - INTERVAL: collection interval in secs (how often the script is run)
 #          - GRAPH_MINS: timespans for graph/png files
 #          - GRAPH_DIR:  output directory
@@ -45,6 +48,7 @@ import time
 
 # Config Settings
 NET_INTERFACE = 'eth0'
+DISK = 'sda'
 INTERVAL = 60  # 1 min
 GRAPH_MINS = (60, 240, 1440)  # 1hour, 4hours, 1day
 GRAPH_DIR = '/var/www/stats/'
@@ -52,21 +56,43 @@ GRAPH_DIR = '/var/www/stats/'
 
 
 def main():  
-    cpu_percent = cpu_util()
+    cpu_pct = cpu_util(5)
     
     mem_used, mem_total = mem_stats()
     
     rx_bits, tx_bits = net_stats(NET_INTERFACE)
     
+    load_avg = load_avg_1min()
+    
+    disk_pct = disk_busy(DISK, 5)
+    
     localhost_name = socket.gethostname()
     
     # store values in rrd and update graphs
-    rrd_ops('cpu_percent', cpu_percent, 'GAUGE', 'FF0000', localhost_name, 1000, upper_limit=100)
+    rrd_ops('cpu_percent', cpu_pct, 'GAUGE', 'FF0000', localhost_name, 1000, upper_limit=100)
     rrd_ops('mem_used', mem_used, 'GAUGE', '00FF00', localhost_name, 1024, upper_limit=mem_total)
     rrd_ops('net_bps_in', rx_bits, 'DERIVE', '6666FF', localhost_name, 1000)
     rrd_ops('net_bps_out', tx_bits, 'DERIVE', '000099', localhost_name, 1000)
+    rrd_ops('load_avg', load_avg, 'GAUGE', 'FF9933', localhost_name, 1000)
+    rrd_ops('disk_busy_percent', disk_pct, 'GAUGE', '663366', localhost_name, 1000, upper_limit=100)
     
-
+    
+def rrd_ops(stat, value, ds_type, color, title, base, upper_limit=None):
+    rrd_name = '%s.rrd' % stat
+    rrd = RRD(rrd_name, stat)
+    rrd.upper_limit = upper_limit
+    rrd.base = base
+    rrd.graph_title = title
+    rrd.graph_color = color
+    rrd.graph_dir = GRAPH_DIR
+    if not os.path.exists(rrd_name):
+        rrd.create(INTERVAL, ds_type)
+    rrd.update(value)
+    for mins in GRAPH_MINS:
+        rrd.graph(mins)
+    print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), stat, value
+    
+    
 def net_stats(interface):
     for line in open('/proc/net/dev'):
         if interface in line:
@@ -96,23 +122,35 @@ def cpu_util(sample_duration=1):
     total = sum(deltas)
     util_pct = 100 * (float(total - idle_delta) / total)
     return util_pct
-    
-    
-def rrd_ops(stat, value, ds_type, color, title, base, upper_limit=None):
-    rrd_name = '%s.rrd' % stat
-    rrd = RRD(rrd_name, stat)
-    rrd.upper_limit = upper_limit
-    rrd.base = base
-    rrd.graph_title = title
-    rrd.graph_color = color
-    rrd.graph_dir = GRAPH_DIR
-    if not os.path.exists(rrd_name):
-        rrd.create(INTERVAL, ds_type)
-    rrd.update(value)
-    for mins in GRAPH_MINS:
-        rrd.graph(mins)
-    print time.strftime('%Y/%m/%d %H:%M:%S', time.localtime()), stat, value
 
+
+def disk_busy(device, sample_duration=1):
+    with open('/proc/diskstats') as f1:
+        with open('/proc/diskstats') as f2:
+            content1 = f1.read()
+            time.sleep(sample_duration)
+            content2 = f2.read()
+    sep = '%s ' % device
+    for line in content1.splitlines():
+        if sep in line:
+            io_ms1 = line.strip().split(sep)[1].split()[9]
+            break
+    for line in content2.splitlines():
+        if sep in line:
+            io_ms2 = line.strip().split(sep)[1].split()[9]
+            break            
+    delta = int(io_ms2) - int(io_ms1)
+    total = sample_duration * 1000
+    busy_pct = 100 - (100 * (float(total - delta) / total))
+    return busy_pct
+
+
+def load_avg_1min():
+    with open('/proc/loadavg') as f:
+        line = f.readline()
+    load_avg = float(line.split()[0])  # 1 minute load average
+    return load_avg
+    
 
 
 

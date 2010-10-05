@@ -19,7 +19,7 @@
     
     <h2>Last 24 Hours (1440 mins)</h2>
     
-    <table>
+       <table>
         <tr>
             <td><h3>CPU (Utilization)</h3></td>
             <td><h3>Memory (Used Physical)</h3></td>
@@ -32,12 +32,23 @@
     
     <table>
         <tr>
-            <td><h3>Network Throughput (bps In)</h3></td>
-            <td><h3>Network Throughput (bps Out)</h3></td>
+            <td><h3>Network (Throughput bps In)</h3></td>
+            <td><h3>Network (Throughput bps Out)</h3></td>
         </tr>
         <tr>
             <td><img src="../net_bps_in.rrd_1440.png"></td>
             <td><img src="../net_bps_out.rrd_1440.png"></td>
+        </tr>
+    </table>
+    
+    <table>
+        <tr>
+            <td><h3>System Load Average (1 min)</h3></td>
+            <td><h3>Disk (Busy)</h3></td>
+        </tr>
+        <tr>
+            <td><img src="../load_avg.rrd_1440.png"></td>
+            <td><img src="../disk_busy_percent.rrd_1440.png"></td>
         </tr>
     </table>
     
