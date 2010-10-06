@@ -4,7 +4,7 @@
 #
 #  linux_cpu_mode_rrd - cpu monitoring script for linux
 #
-#    - monitors and detailed CPU statistics
+#    - monitors detailed CPU statistics
 #    - stores data in RRD (round-robin database)
 #    - generates .png images of plots/stats
 #    - run this script at regular intervals with a task/job scheduler
