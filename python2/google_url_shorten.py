@@ -1,7 +1,7 @@
 #!/usr/bin/python  
 #  Corey Goldberg - 2010
 #
-#  shorten a URL using Google's url shortening service (goo.gl)
+#  shorten a URL using Google's shortening service (goo.gl)
 #
 
 
