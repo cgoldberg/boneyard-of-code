@@ -32,8 +32,25 @@ def disk_busy(device, sample_duration=1):
 
 
 
-def disk_reads_writes(device, sample_duration=1):
-    """Return number of (reads, writes) during the sample_duration."""
+def disk_reads_writes(device):
+    """Return number of disk (reads, writes)."""
+    with open('/proc/diskstats') as f:
+        content = f.read()
+    sep = '%s ' % device
+    for line in content.splitlines():
+        if sep in line:
+            fields = line.strip().split(sep)[1].split()
+            num_reads = fields[0]
+            num_writes = fields[4]
+            break          
+    num_reads = int(num_reads)
+    num_writes = int(num_writes)    
+    return num_reads, num_writes
+    
+    
+    
+def disk_reads_writes_persec(device, sample_duration=1):
+    """Return number of disk (reads, writes) per sec during the sample_duration."""
     with open('/proc/diskstats') as f1:
         with open('/proc/diskstats') as f2:
             content1 = f1.read()
@@ -52,15 +69,21 @@ def disk_reads_writes(device, sample_duration=1):
             num_reads2 = fields[0]
             num_writes2 = fields[4]
             break            
-    num_reads = int(num_reads2) - int(num_reads1)
-    num_writes = int(num_writes2) - int(num_writes1)    
-    return num_reads, num_writes
-    
+    reads_per_sec = (int(num_reads2) - int(num_reads1)) / float(sample_duration)
+    writes_per_sec = (int(num_writes2) - int(num_writes1)) / float(sample_duration)   
+    return reads_per_sec, writes_per_sec
+
+
 
 
 if __name__ == '__main__':  
-    print 'busy: %s%%' % disk_busy('sda', 5)
-    r, w = disk_reads_writes('sda', 5)
+    r, w = disk_reads_writes('sda')
     print 'reads: %s' % r
     print 'writes: %s' % w
+    
+    print 'busy: %s%%' % disk_busy('sda', 5)
+    
+    rps, wps = disk_reads_writes_persec('sda', 5)
+    print 'reads per sec: %s' % rps
+    print 'writes per sec: %s' % wps
 
