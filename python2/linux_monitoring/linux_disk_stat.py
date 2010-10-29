@@ -1,8 +1,38 @@
 #!/usr/bin/env python
 # Corey Goldberg - 2010
+# linux_disk_stat
 
-# works with Linux 2.6.x
-# requires Python 2.6+
+"""
+    linux_disk_stat - Python Module for Disk Stats on Linux
+    
+    requires:
+    - Python 2.6+
+    - Linux 2.6.x
+    
+    
+    functions:
+    - disk_busy(device, sample_duration=1)
+    - disk_reads_writes(device)
+    - disk_reads_writes_persec(device, sample_duration=1)
+    
+    
+    example:
+    
+        #!/usr/bin/env python
+        
+        import linux_disk_stat as diskstat
+        
+        r, w = diskstat.disk_reads_writes('sda')
+        print 'reads: %s' % r
+        print 'writes: %s' % w
+        
+        print 'busy: %s%%' % diskstat.disk_busy('sda', 5)
+        
+        rps, wps = diskstat.disk_reads_writes_persec('sda', 5)
+        print 'reads per sec: %s' % rps
+        print 'writes per sec: %s' % wps
+    
+"""
 
 
 import time
