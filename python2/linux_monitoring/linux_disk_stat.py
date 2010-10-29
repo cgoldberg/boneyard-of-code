@@ -40,11 +40,9 @@ def disk_reads_writes(device):
     for line in content.splitlines():
         if sep in line:
             fields = line.strip().split(sep)[1].split()
-            num_reads = fields[0]
-            num_writes = fields[4]
-            break          
-    num_reads = int(num_reads)
-    num_writes = int(num_writes)    
+            num_reads = int(fields[0])
+            num_writes = int(fields[4])
+            break             
     return num_reads, num_writes
     
     
@@ -60,17 +58,17 @@ def disk_reads_writes_persec(device, sample_duration=1):
     for line in content1.splitlines():
         if sep in line:
             fields = line.strip().split(sep)[1].split()
-            num_reads1 = fields[0]
-            num_writes1 = fields[4]
+            num_reads1 = int(fields[0])
+            num_writes1 = int(fields[4])
             break
     for line in content2.splitlines():
         if sep in line:
             fields = line.strip().split(sep)[1].split()
-            num_reads2 = fields[0]
-            num_writes2 = fields[4]
+            num_reads2 = int(fields[0])
+            num_writes2 = int(fields[4])
             break            
-    reads_per_sec = (int(num_reads2) - int(num_reads1)) / float(sample_duration)
-    writes_per_sec = (int(num_writes2) - int(num_writes1)) / float(sample_duration)   
+    reads_per_sec = (num_reads2 - num_reads1) / float(sample_duration)
+    writes_per_sec = (num_writes2 - num_writes1) / float(sample_duration)   
     return reads_per_sec, writes_per_sec
 
 
