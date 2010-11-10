@@ -13,7 +13,7 @@ import urllib2
 NODE = '192.168.12.171'
 PORT = '8091'
 USERNAME = 'Administrator'
-PASSWORD = 'PerfServer'
+PASSWORD = 'Secret'
 
 
 
