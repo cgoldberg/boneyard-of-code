@@ -1,17 +1,20 @@
 #!/usr/bin/env python
 # Corey Goldberg - 2010
-# print a 60 sec snapshot report of bucket statistics from Membase (Membase Management REST API)
+# print a 60 sec snapshot report of pool statistics from Membase (Membase Management REST API)
 # uses HTTP Basic Authentication
+
 
 
 import json
 import urllib2
 
 
+
 NODE = '192.168.12.171'
 PORT = '8091'
 USERNAME = 'Administrator'
 PASSWORD = 'PerfServer'
+
 
 
 url =  'http://%s:%s/pools/default/stats?stat=opsbysecond&period=1m' % (NODE, PORT)
@@ -24,7 +27,8 @@ urllib2.install_opener(opener)
 
 response = urllib2.urlopen(url)
 results = json.load(response)
- 
+
+
 print 'stat'.rjust(23), 'min'.rjust(15), 'avg'.rjust(15), 'max'.rjust(15)
 print '-----------------------------------------------------------------------'
    
