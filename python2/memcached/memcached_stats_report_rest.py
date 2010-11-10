@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Corey Goldberg - 2010
-# print a 60 sec snapshot report of cache bucket statistics from Memcached (Northscale Management REST API)
+# print a 60 sec snapshot report of cache bucket statistics from Memcached (Membase Management REST API)
 
 import json
 import urllib

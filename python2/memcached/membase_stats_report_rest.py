@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Corey Goldberg - 2010
-# print a 60 sec snapshot report of bucket statistics from Membase (Northscale Management REST API)
+# print a 60 sec snapshot report of bucket statistics from Membase (Membase Management REST API)
 
 
 import json
