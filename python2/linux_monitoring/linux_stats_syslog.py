@@ -2,7 +2,7 @@
 #
 #  Corey Goldberg - 2010
 #
-#  linux_stats_splunk - local system monitoring script for linux (stats fed to syslog).
+#  linux_stats_syslog.py - local system monitoring script for linux (stats fed to syslog).
 #   
 #    stats collected:
 #      - cpu_percent: processor utilization
