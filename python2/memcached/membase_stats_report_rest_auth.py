@@ -11,7 +11,6 @@ import urllib2
 
 NODE = '192.168.12.171'
 PORT = '8091'
-BUCKET = 'default'
 USERNAME = 'Administrator'
 PASSWORD = 'Secret'
 
@@ -29,18 +28,31 @@ else:
     opener = urllib2.build_opener(auth_handler)
 urllib2.install_opener(opener)
 
-url =  'http://%s:%s/pools/default/buckets/%s/stats?stat=opsbysecond&period=1m' % (NODE, PORT, BUCKET)
+
+url =  'http://%s:%s/pools/stats/buckets' % (NODE, PORT)
 
 results = json.load(urllib2.urlopen(url))
- 
-print 'stat'.rjust(23), 'min'.rjust(15), 'avg'.rjust(15), 'max'.rjust(15)
-print '-----------------------------------------------------------------------'
-   
-for stat_name, values in sorted(results['op']['samples'].iteritems()):
-    if stat_name not in ['timestamp']:
-        mn = '%.0f' % min(values)
-        mx = '%.0f' % max(values)
-        avg = '%.2f' % (float(sum(values)) / len(values))
-        print stat_name.rjust(23), mn.rjust(15), avg.rjust(15), mx.rjust(15)
+
+print 'bucket'.rjust(15), 'item count'.rjust(15), 'mem used'.rjust(18)
+print '--------------------------------------------------'
+
+for bucket in sorted(results):
+    name = bucket['name']
+    stat_map = bucket['basicStats']
+    count = str(stat_map['itemCount'])
+    mem_used = str(stat_map['memUsed'])
+    print name.rjust(15), count.rjust(15), mem_used.rjust(18)
 
 
+
+
+# Sample Output:
+# 
+# 
+#          bucket      item count           mem used
+# --------------------------------------------------
+#             mc1               0                  0
+#             mc2               0                  0
+#             mb1               0           25790864
+#         default              10           25858790
+# 
