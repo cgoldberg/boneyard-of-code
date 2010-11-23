@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Corey Goldberg - 2010
-# print a 60 sec snapshot report of bucket statistics from Membase (Membase Management REST API)
+# print a snapshot report of bucket statistics from Membase (Membase Management REST API)
 # uses HTTP Basic Authentication
 
 
