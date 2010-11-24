@@ -22,31 +22,36 @@ auth_handler = urllib2.HTTPBasicAuthHandler(password_mgr)
 opener = urllib2.build_opener(auth_handler)
 urllib2.install_opener(opener)
 
-
 url =  'http://%s:%s/pools/stats/buckets' % (NODE, PORT)
 
 results = json.load(urllib2.urlopen(url))
 
-print 'bucket'.rjust(15), 'item count'.rjust(15), 'mem used'.rjust(18)
-print '--------------------------------------------------'
-
+output = []
+output.append('bucket'.rjust(18))
+for stat in sorted(results[0]['basicStats']):
+    output.append(stat.rjust(18))
+output.append('\n------------------------------------------------------------------------------------------------------------------------------\n')   
 for bucket in sorted(results):
     name = bucket['name']
     stat_map = bucket['basicStats']
-    count = str(stat_map['itemCount'])
-    mem_used = str(stat_map['memUsed'])
-    print name.rjust(15), count.rjust(15), mem_used.rjust(18)
+    output.append(name.rjust(18))
+    for stat in sorted(stat_map):
+        output.append(str(stat_map[stat]).rjust(18))
+    output.append('\n')   
+print ''.join(output)
+    
+    
+    
 
 
-
-
-# Sample Output:
-# 
-# 
-#          bucket      item count           mem used
-# --------------------------------------------------
-#             mc1               0                  0
-#             mc2               0                  0
-#             mb1               0           25790864
-#         default              10           25858790
-# 
+#  Sample Output:
+#
+#
+#             bucket       diskFetches          diskUsed         itemCount           memUsed         opsPerSec  quotaPercentUsed
+# ------------------------------------------------------------------------------------------------------------------------------
+#                mc1                 0                 0                 0                 0                 0               0.0
+#                mc2                 0                 0                 0                 0                 0               0.0
+#                mb1                 0            104448              3352          27191629                67    0.211034816069
+#            default                 0            190464                10          25860014                 0     6.42240395149
+           
+           
