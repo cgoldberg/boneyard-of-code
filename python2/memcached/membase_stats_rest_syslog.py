@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # Corey Goldberg - 2010
-# - prints a snapshot report of bucket statistics from Membase (Membase Management REST API)
-# - tagged data items are written to syslog
-# - uses HTTP Basic Authentication
-
+#
+# - prints a snapshot report of bucket statistics from Membase
+# - writes tagged data items to unix syslog
+# - uses Membase Management REST API with HTTP Basic Authentication
 
 
 import json
 import urllib2
 import syslog
+
 
 NODE = '127.0.0.1'
 PORT = '8091'
@@ -26,6 +27,7 @@ urllib2.install_opener(opener)
 url =  'http://%s:%s/pools/stats/buckets' % (NODE, PORT)
 
 results = json.load(urllib2.urlopen(url))
+
 
 output = []
 output.append('bucket'.rjust(18))
