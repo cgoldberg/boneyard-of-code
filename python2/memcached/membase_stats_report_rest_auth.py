@@ -12,7 +12,7 @@ import urllib2
 NODE = '127.0.0.1'
 PORT = '8091'
 USERNAME = 'Administrator'
-PASSWORD = 'PerfServer'
+PASSWORD = 'Secret'
 
 
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
