@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # Corey Goldberg - 2010
 #
-# - prints a snapshot report of bucket statistics from Membase
-# - writes tagged data items to unix syslog
-# - uses Membase Management REST API with HTTP Basic Authentication
+#  bucket statistics from Membase:
+#  - prints formatted text report 
+#  - writes tagged stats to unix syslog
+#  - uses Membase Management REST API with HTTP Basic Authentication
 
 
 import json
