@@ -9,23 +9,17 @@ import json
 import urllib2
 
 
-NODE = '192.168.12.171'
+NODE = '127.0.0.1'
 PORT = '8091'
 USERNAME = 'Administrator'
-PASSWORD = 'Secret'
-
-DEBUG = False
+PASSWORD = 'PerfServer'
 
 
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-top_level = '%s:%s' % (NODE, PORT)
-password_mgr.add_password(None, top_level, USERNAME, PASSWORD)
+uri = '%s:%s' % (NODE, PORT)
+password_mgr.add_password(None, uri, USERNAME, PASSWORD)
 auth_handler = urllib2.HTTPBasicAuthHandler(password_mgr)
-if DEBUG:
-    debug_handler = urllib2.HTTPHandler(debuglevel=1)
-    opener = urllib2.build_opener(auth_handler, debug_handler)
-else:
-    opener = urllib2.build_opener(auth_handler)
+opener = urllib2.build_opener(auth_handler)
 urllib2.install_opener(opener)
 
 
