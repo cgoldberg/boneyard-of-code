@@ -9,8 +9,8 @@
 
 
 import json
-import urllib2
 import syslog
+import urllib2
 
 
 
