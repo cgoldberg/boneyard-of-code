@@ -52,6 +52,7 @@ def format(results):
             output.append(str(stat_map[stat]).rjust(18))
         output.append('\n')   
     formatted_output = ''.join(output)
+    
     return formatted_output
 
 
@@ -62,6 +63,7 @@ def tag(results):
         for stat in sorted(stat_map):
             output.append('%s-%s="%s"' % (bucket['name'], stat, stat_map[stat]))  
     tagged_output = ' '.join(output)
+    
     return tagged_output
     
 
