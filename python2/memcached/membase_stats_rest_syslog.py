@@ -21,52 +21,56 @@ CONSOLE_OUTPUT = True
 SYSLOG_OUTPUT = True
 
 
+def main():
+    password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+    uri = '%s:%s' % (NODE, PORT)
+    password_mgr.add_password(None, uri, USERNAME, PASSWORD)
+    auth_handler = urllib2.HTTPBasicAuthHandler(password_mgr)
+    opener = urllib2.build_opener(auth_handler)
+    urllib2.install_opener(opener)
 
-password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-uri = '%s:%s' % (NODE, PORT)
-password_mgr.add_password(None, uri, USERNAME, PASSWORD)
-auth_handler = urllib2.HTTPBasicAuthHandler(password_mgr)
-opener = urllib2.build_opener(auth_handler)
-urllib2.install_opener(opener)
+    url =  'http://%s:%s/pools/stats/buckets' % (NODE, PORT)
 
-url =  'http://%s:%s/pools/stats/buckets' % (NODE, PORT)
+    results = json.load(urllib2.urlopen(url))
 
-results = json.load(urllib2.urlopen(url))
+    if CONSOLE_OUTPUT:
+        print format(results)
+    if SYSLOG_OUTPUT:
+        syslog.syslog(tag(results))
 
 
-if CONSOLE_OUTPUT:
+def format(results):
     output = []
     output.append('bucket'.rjust(18))
     for stat in sorted(results[0]['basicStats']):
         output.append(stat.rjust(18))
     output.append('\n------------------------------------------------------------------------------------------------------------------------------\n')   
     for bucket in sorted(results):
-        name = bucket['name']
         stat_map = bucket['basicStats']
-        output.append(name.rjust(18))
+        output.append(bucket['name'].rjust(18))
         for stat in sorted(stat_map):
             output.append(str(stat_map[stat]).rjust(18))
         output.append('\n')   
     formatted_output = ''.join(output)
+    return formatted_output
 
-    print formatted_output
 
-
-if SYSLOG_OUTPUT:
+def tag(results):
     output = []
     for bucket in results:
-        name = bucket['name']
         stat_map = bucket['basicStats']
         for stat in sorted(stat_map):
-            output.append('%s-%s="%s"' % (name, stat, stat_map[stat]))  
+            output.append('%s-%s="%s"' % (bucket['name'], stat, stat_map[stat]))  
     tagged_output = ' '.join(output)
-
-    syslog.syslog(tagged_output)
+    return tagged_output
     
 
+if __name__== '__main__':
+    main()
+    
+    
 
-
-#  Sample Console Output:
+#  sample console output:
 # 
 # 
 #              bucket       diskFetches          diskUsed         itemCount           memUsed         opsPerSec  quotaPercentUsed
@@ -75,7 +79,7 @@ if SYSLOG_OUTPUT:
 #                 mb1                 0             10240                 0          25789640                 0     19.2147791386
 
 
-#  Sample syslog entry:
+#  sample syslog entry:
 #  
 #  default-diskFetches="0" default-diskUsed="10240" default-itemCount="0" default-memUsed="25789640" default-opsPerSec="0"
 #  default-quotaPercentUsed="19.2147791386" mb1-diskFetches="0" mb1-diskUsed="10240" mb1-itemCount="0" mb1-memUsed="25789640"
