@@ -12,7 +12,7 @@ import urllib2
 NODE = '127.0.0.1'
 PORT = '8091'
 USERNAME = 'Administrator'
-PASSWORD = 'Secret'
+PASSWORD = 'PerfServer'
 
 
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
@@ -26,22 +26,18 @@ url =  'http://%s:%s/pools/stats/buckets' % (NODE, PORT)
 
 results = json.load(urllib2.urlopen(url))
 
-output = []
-output.append('bucket'.rjust(18))
+print 'bucket'.rjust(18),
 for stat in sorted(results[0]['basicStats']):
-    output.append(stat.rjust(18))
-output.append('\n------------------------------------------------------------------------------------------------------------------------------\n')   
+    print stat.rjust(18),
+print '\n------------------------------------------------------------------------------------------------------------------------------'
 for bucket in sorted(results):
     name = bucket['name']
     stat_map = bucket['basicStats']
-    output.append(name.rjust(18))
+    print name.rjust(18),
     for stat in sorted(stat_map):
-        output.append(str(stat_map[stat]).rjust(18))
-    output.append('\n')   
-print ''.join(output)
-    
-    
-    
+        print str(stat_map[stat]).rjust(18),
+       
+
 
 
 #  Sample Output:
