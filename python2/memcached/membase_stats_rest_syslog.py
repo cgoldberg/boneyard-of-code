@@ -2,8 +2,8 @@
 # Corey Goldberg - 2010
 #
 #  bucket statistics from Membase:
-#  - prints formatted text report 
 #  - writes tagged stats to unix syslog
+#  - prints formatted text report 
 #  - uses Membase Management REST API with HTTP Basic Authentication
 
 
@@ -15,7 +15,11 @@ import syslog
 NODE = '127.0.0.1'
 PORT = '8091'
 USERNAME = 'Administrator'
-PASSWORD = 'Secret'
+PASSWORD = 'secret'
+
+CONSOLE_OUTPUT = True
+SYSLOG_OUTPUT = True
+
 
 
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
@@ -30,32 +34,34 @@ url =  'http://%s:%s/pools/stats/buckets' % (NODE, PORT)
 results = json.load(urllib2.urlopen(url))
 
 
-output = []
-output.append('bucket'.rjust(18))
-for stat in sorted(results[0]['basicStats']):
-    output.append(stat.rjust(18))
-output.append('\n------------------------------------------------------------------------------------------------------------------------------\n')   
-for bucket in sorted(results):
-    name = bucket['name']
-    stat_map = bucket['basicStats']
-    output.append(name.rjust(18))
-    for stat in sorted(stat_map):
-        output.append(str(stat_map[stat]).rjust(18))
-    output.append('\n')   
-formatted_output = ''.join(output)
+if CONSOLE_OUTPUT:
+    output = []
+    output.append('bucket'.rjust(18))
+    for stat in sorted(results[0]['basicStats']):
+        output.append(stat.rjust(18))
+    output.append('\n------------------------------------------------------------------------------------------------------------------------------\n')   
+    for bucket in sorted(results):
+        name = bucket['name']
+        stat_map = bucket['basicStats']
+        output.append(name.rjust(18))
+        for stat in sorted(stat_map):
+            output.append(str(stat_map[stat]).rjust(18))
+        output.append('\n')   
+    formatted_output = ''.join(output)
 
-print formatted_output
+    print formatted_output
 
 
-output = []
-for bucket in results:
-    name = bucket['name']
-    stat_map = bucket['basicStats']
-    for stat in sorted(stat_map):
-        output.append('%s-%s="%s"' % (name, stat, stat_map[stat]))  
-tagged_output = ' '.join(output)
+if SYSLOG_OUTPUT:
+    output = []
+    for bucket in results:
+        name = bucket['name']
+        stat_map = bucket['basicStats']
+        for stat in sorted(stat_map):
+            output.append('%s-%s="%s"' % (name, stat, stat_map[stat]))  
+    tagged_output = ' '.join(output)
 
-syslog.syslog(tagged_output)
+    syslog.syslog(tagged_output)
     
 
 
