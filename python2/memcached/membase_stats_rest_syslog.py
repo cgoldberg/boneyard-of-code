@@ -7,9 +7,11 @@
 #  - uses Membase Management REST API with HTTP Basic Authentication
 
 
+
 import json
 import urllib2
 import syslog
+
 
 
 NODE = '127.0.0.1'
@@ -19,6 +21,7 @@ PASSWORD = 'secret'
 
 CONSOLE_OUTPUT = True
 SYSLOG_OUTPUT = True
+
 
 
 def main():
@@ -39,6 +42,7 @@ def main():
         syslog.syslog(tag(results))
 
 
+
 def format(results):
     output = []
     output.append('bucket'.rjust(18))
@@ -56,6 +60,7 @@ def format(results):
     return formatted_output
 
 
+
 def tag(results):
     output = []
     for bucket in results:
@@ -66,6 +71,7 @@ def tag(results):
     
     return tagged_output
     
+
 
 if __name__== '__main__':
     main()
