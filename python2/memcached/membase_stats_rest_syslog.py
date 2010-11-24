@@ -19,8 +19,8 @@ PORT = '8091'
 USERNAME = 'Administrator'
 PASSWORD = 'secret'
 
-CONSOLE_OUTPUT = True
 SYSLOG_OUTPUT = True
+CONSOLE_OUTPUT = True
 
 
 
@@ -36,10 +36,23 @@ def main():
 
     results = json.load(urllib2.urlopen(url))
 
-    if CONSOLE_OUTPUT:
-        print format(results)
     if SYSLOG_OUTPUT:
         syslog.syslog(tag(results))
+    if CONSOLE_OUTPUT:
+        print format(results)
+    
+
+
+
+def tag(results):
+    output = []
+    for bucket in results:
+        stat_map = bucket['basicStats']
+        for stat in sorted(stat_map):
+            output.append('%s-%s="%s"' % (bucket['name'], stat, stat_map[stat]))  
+    tagged_output = ' '.join(output)
+    
+    return tagged_output
 
 
 
@@ -58,24 +71,12 @@ def format(results):
     formatted_output = ''.join(output)
     
     return formatted_output
-
-
-
-def tag(results):
-    output = []
-    for bucket in results:
-        stat_map = bucket['basicStats']
-        for stat in sorted(stat_map):
-            output.append('%s-%s="%s"' % (bucket['name'], stat, stat_map[stat]))  
-    tagged_output = ' '.join(output)
     
-    return tagged_output
     
-
-
+    
 if __name__== '__main__':
     main()
-    
+
     
 
 #  sample console output:
