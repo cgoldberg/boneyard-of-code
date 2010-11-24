@@ -61,7 +61,8 @@ def format(results):
     output.append('bucket'.rjust(18))
     for stat in sorted(results[0]['basicStats']):
         output.append(stat.rjust(18))
-    output.append('\n------------------------------------------------------------------------------------------------------------------------------\n')   
+    output.append('\n---------------------------------------------------------------' \
+        '---------------------------------------------------------------\n')   
     for bucket in sorted(results):
         stat_map = bucket['basicStats']
         output.append(bucket['name'].rjust(18))

@@ -12,7 +12,7 @@ import urllib2
 NODE = '127.0.0.1'
 PORT = '8091'
 USERNAME = 'Administrator'
-PASSWORD = 'Secret'
+PASSWORD = 'secret'
 
 
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
@@ -29,18 +29,18 @@ results = json.load(urllib2.urlopen(url))
 print 'bucket'.rjust(18),
 for stat in sorted(results[0]['basicStats']):
     print stat.rjust(18),
-print '\n------------------------------------------------------------------------------------------------------------------------------'
+print '\n---------------------------------------------------------------' \
+    '---------------------------------------------------------------'
 for bucket in sorted(results):
-    name = bucket['name']
     stat_map = bucket['basicStats']
-    print name.rjust(18),
+    print bucket['name'].rjust(18),
     for stat in sorted(stat_map):
         print str(stat_map[stat]).rjust(18),
        
 
 
 
-#  Sample Output:
+#  sample output:
 #
 #
 #             bucket       diskFetches          diskUsed         itemCount           memUsed         opsPerSec  quotaPercentUsed
