@@ -40,7 +40,6 @@ def main():
         syslog.syslog(tag(results))
     if CONSOLE_OUTPUT:
         print format(results)
-    
 
 
 
