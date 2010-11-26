@@ -2,7 +2,7 @@
 # Corey Goldberg - 2010
 #
 #  bucket statistics from Membase:
-#  - retrieves cluster 'basicStats' from Membase Management REST API (using HTTP Basic Authentication)
+#  - gets cluster 'basicStats' from Membase Management REST API (using HTTP Basic Authentication)
 #  - produces tagged and/or formatted stats output
 #  - writes to unix syslog
 #  - prints to console/stdout
