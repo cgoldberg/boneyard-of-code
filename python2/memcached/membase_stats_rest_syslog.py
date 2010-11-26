@@ -95,7 +95,6 @@ if __name__== '__main__':
 
 
 #  sample formatted output:
-# 
 #
 #              bucket       diskFetches          diskUsed         itemCount           memUsed         opsPerSec  quotaPercentUsed
 #  ------------------------------------------------------------------------------------------------------------------------------
@@ -107,7 +106,6 @@ if __name__== '__main__':
 
 #  sample tagged output:
 #
-#  
 #  default-diskFetches="0" default-diskUsed="10240" default-itemCount="0" default-memUsed="25789640" default-opsPerSec="0"
 #  default-quotaPercentUsed="19.2147791386" mb1-diskFetches="0" mb1-diskUsed="10240" mb1-itemCount="0" mb1-memUsed="25789640"
 #  mb1-opsPerSec="0" mb1-quotaPercentUsed="19.2147791386" mc1-diskUsed="0" mc1-hitRatio="0" mc1-itemCount="0" mc1-memUsed="0"
