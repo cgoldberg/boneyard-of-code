@@ -59,8 +59,8 @@ def main():
 def format(results):
     output = []
     output.append('bucket'.rjust(18))
-    for stat in sorted(results[0]['basicStats']):
-        output.append(stat.rjust(18))
+    for stat_label in sorted(results[0]['basicStats']):
+        output.append(stat_label.rjust(18))
     output.append('\n---------------------------------------------------------------' \
         '---------------------------------------------------------------\n')   
     for bucket in results:
