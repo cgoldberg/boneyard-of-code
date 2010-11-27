@@ -3,7 +3,7 @@
 #
 #  bucket statistics from Membase:
 #  - gets cluster 'basicStats' from Membase Management REST API (using HTTP Basic Authentication)
-#  - produces tagged and/or formatted stats output
+#  - converts JSON responses to tagged and/or formatted stats output
 #  - writes to unix syslog
 #  - prints to console/stdout
 
