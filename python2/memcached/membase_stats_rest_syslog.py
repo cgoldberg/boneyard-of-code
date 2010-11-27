@@ -61,13 +61,13 @@ def format(results):
     output.append('bucket'.rjust(18))
     for stat_label in sorted(results[0]['basicStats']):
         output.append(stat_label.rjust(18))
-    output.append('\n---------------------------------------------------------------' \
-        '---------------------------------------------------------------\n')   
+    output.append('\n----------------------------------------------------------' \
+        '--------------------------------------------------------------------\n')   
     for bucket in results:
         stat_map = bucket['basicStats']
         output.append(bucket['name'].rjust(18))
-        for stat in sorted(stat_map):
-            output.append(str(stat_map[stat]).rjust(18))
+        for stat_label in sorted(stat_map):
+            output.append(str(stat_map[stat_label]).rjust(18))
         output.append('\n')   
     formatted_output = ''.join(output)
     
@@ -79,8 +79,8 @@ def tag(results):
     output = []
     for bucket in results:
         stat_map = bucket['basicStats']
-        for stat in sorted(stat_map):
-            output.append('%s-%s="%s"' % (bucket['name'], stat, stat_map[stat]))  
+        for stat_label in sorted(stat_map):
+            output.append('%s-%s="%s"' % (bucket['name'], stat_label, stat_map[stat_label]))  
     tagged_output = ' '.join(output)
     
     return tagged_output
