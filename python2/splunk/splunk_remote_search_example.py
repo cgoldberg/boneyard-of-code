@@ -37,7 +37,7 @@ def main():
     while not job.isDone:
         time.sleep(.25)
     
-    print 'results:\n%s' % job    
+    print 'results:'    
     for result in job.results:
         print result
           
