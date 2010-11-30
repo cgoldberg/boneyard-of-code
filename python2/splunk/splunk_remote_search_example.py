@@ -4,7 +4,7 @@
 #  search a remote splunk server
 #
 #  instructions:
-#   - save script into Splunk's "bin" directory
+#   - save script into splunk's "bin" directory
 #     (usually "/opt/splunk/bin" or "C:\Program Files\Splunk\bin")
 #   - go to the "bin" directory and run: 
 #     $ splunk cmd python my_script.py
@@ -27,9 +27,11 @@ EARLIEST_TIME = '-15m'
 
 
 def main():
+    # authenticate
     key = splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
     print 'auth key:\n%s' % key
-
+    
+    # submit a search job
     job = splunk.search.dispatch(SEARCH_STRING, earliest_time=EARLIEST_TIME, hostPath='https://%s:8089' % SPLUNK_SERVER)
     print 'job details:\n%s' % job
 
