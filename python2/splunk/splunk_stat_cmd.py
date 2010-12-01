@@ -67,7 +67,7 @@ def main():
         host = sys.argv[2]
         earliest_time = sys.argv[3]
         
-    key = splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
+    splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
      
     if stat_name == 'cpu_util_pct':
         sourcetype = 'cpu'
