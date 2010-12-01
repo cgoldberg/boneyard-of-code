@@ -21,7 +21,7 @@ import splunk.search
 SPLUNK_SERVER = '192.168.12.173'
 USER_NAME = 'foo'
 PASSWORD = 'secret'
-SEARCH_STRING = 'search *'
+SEARCH_STRING = 'search index="os"'
 EARLIEST_TIME = '-15m'
 
 
