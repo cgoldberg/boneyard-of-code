@@ -5,11 +5,13 @@
 #  (tested with splunk version 4.14 (contains python 2.6.4))
 #
 #
+#
 #  instructions:
 #   - save script into splunk's "bin" directory
 #     (usually "/opt/splunk/bin" or "C:\Program Files\Splunk\bin")
-#   - go to the "bin" directory and run: 
+#   - go to the "bin" directory on the command line and run: 
 #     splunk cmd python splunk_stat_cmd.py <stat_name> <host> [earliest_time]
+#
 #
 #
 #  available stats:
@@ -18,11 +20,13 @@
 #   - disk_used_pct
 #
 #
+#
 #  sample invocation (default 3 minute timespan):
 #  splunk cmd python splunk_stat_cmd.py cpu_util_pct myserver
 #
 #  sample output:
-#  cpu_util_pct myserver 2010-12-01T16:51:20-0500 9.95
+#  cpu_util_pct myserver 2010-12-01T16:51:20-0500 9.58
+#
 #
 #
 #  sample invocation (30 minute timespan):
@@ -30,6 +34,7 @@
 #
 #  sample output:
 #  disk_used_pct myserver 2010-12-01T16:12:20-0500 18
+#
 #
 #
 #  sample invocation (0 minute timespan - forced error):
