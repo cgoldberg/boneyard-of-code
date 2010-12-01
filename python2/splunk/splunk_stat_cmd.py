@@ -13,9 +13,9 @@
 #
 #
 #  available stats:
-#    cpu_util_pct
-#    mem_used_pct
-#    disk_used_pct
+#   - cpu_util_pct
+#   - mem_used_pct
+#   - disk_used_pct
 #
 #
 #  sample invocation (default 3 minute timespan):
