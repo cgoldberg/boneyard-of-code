@@ -66,18 +66,18 @@ def main():
     if len(sys.argv) == 3:
         stat_name = sys.argv[1]
         host = sys.argv[2]
-        earliest_time = '-3m'
+        timespan = '-3m'
     if len(sys.argv) == 4:
         stat_name = sys.argv[1]
         host = sys.argv[2]
-        earliest_time = sys.argv[3]
+        timespan = sys.argv[3]
         
     splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
      
     if stat_name == 'cpu_util_pct':
         sourcetype = 'cpu'
         try:
-            latest_result = get_latest_result(host, sourcetype, earliest_time)
+            latest_result = get_latest_result(host, sourcetype, timespan)
             line = str(latest_result).split('\n')[1]
             now = latest_result.time
             value = 100.0 - float(line.split()[-1])
@@ -88,7 +88,7 @@ def main():
     elif stat_name == 'mem_used_pct':
         sourcetype = 'vmstat'
         try:
-            latest_result = get_latest_result(host, sourcetype, earliest_time)       
+            latest_result = get_latest_result(host, sourcetype, timespan)       
             line = str(latest_result).split('\n')[1]
             now = latest_result.time
             value = line.split()[4]
@@ -99,7 +99,7 @@ def main():
     elif stat_name == 'disk_used_pct':
         sourcetype = 'df'
         try:
-            latest_result = get_latest_result(host, sourcetype, earliest_time)
+            latest_result = get_latest_result(host, sourcetype, timespan)
             line = str(latest_result).split('\n')[1]
             now = latest_result.time
             value = line.split()[-2].replace('%', '')
@@ -115,10 +115,10 @@ def main():
     
     
     
-def get_latest_result(host, sourcetype, earliest_time):
+def get_latest_result(host, sourcetype, timespan):
     search = 'search index="os" host="%s" sourcetype="%s"' % (host, sourcetype)
     
-    job = splunk.search.dispatch(search, earliest_time=earliest_time, hostPath='https://%s:8089' % SPLUNK_SERVER)
+    job = splunk.search.dispatch(search, earliest_time=timespan, hostPath='https://%s:8089' % SPLUNK_SERVER)
     
     while not job.isDone:
         time.sleep(.25)
@@ -136,7 +136,7 @@ def usage():
     prog_name = sys.argv[0]
     print '\n%s\n\n' % prog_name
     print 'usage:'
-    print '  %s <stat_name> <host> [earliest_time]\n' % prog_name
+    print '  %s <stat_name> <host> [timespan]\n' % prog_name
     print 'example:'
     print '  $ splunk cmd python %s cpu_util_pct pfcamb201\n' % prog_name
     print 'example:'
