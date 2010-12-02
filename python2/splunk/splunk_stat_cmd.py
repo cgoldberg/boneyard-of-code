@@ -15,7 +15,7 @@
 #
 #
 #  available stats:
-#   - cpu_util_pct
+#   - cpu_pct
 #   - mem_used_pct
 #   - disk_used_pct
 #
@@ -74,47 +74,65 @@ def main():
         
     splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
      
-    if stat_name == 'cpu_util_pct':
-        sourcetype = 'cpu'
-        try:
-            latest_result = get_latest_result(host, sourcetype, timespan)
-            line = str(latest_result).split('\n')[1]
-            now = latest_result.time
-            value = 100.0 - float(line.split()[-1])
-        except Exception as e:
-            now = '-'
-            value = str(e)
-        
+    if stat_name == 'cpu_pct':
+        now, value = cpu_pct(host, timespan)
     elif stat_name == 'mem_used_pct':
-        sourcetype = 'vmstat'
-        try:
-            latest_result = get_latest_result(host, sourcetype, timespan)       
-            line = str(latest_result).split('\n')[1]
-            now = latest_result.time
-            value = line.split()[4]
-        except Exception as e:
-            now = '-'
-            value = str(e)
-            
+        now, value = mem_used_pct(host, timespan)
     elif stat_name == 'disk_used_pct':
-        sourcetype = 'df'
-        try:
-            latest_result = get_latest_result(host, sourcetype, timespan)
-            line = str(latest_result).split('\n')[1]
-            now = latest_result.time
-            value = line.split()[-2].replace('%', '')
-        except Exception as e:
-            now = '-'
-            value = str(e)
-            
+        now, value = disk_used_pct(host, timespan)
     else:
-        print stat_name, host, '-', 'NODATA' 
-        sys.exit(1)
-        
+        now = '-' 
+        value = 'NODATA' 
+    
     print stat_name, host, now, value 
     
     
+
+def cpu_pct(host, timespan):
+    sourcetype = 'cpu'
+    try:
+        latest_result = get_latest_result(host, sourcetype, timespan)
+        now = latest_result.time
+        line = str(latest_result).split('\n')[1]
+        value = 100.0 - float(line.split()[-1])
+    except Exception as e:
+        now = '-'
+        value = str(e)
+        
+    return (now, value)
     
+    
+
+def mem_used_pct(host, timespan):
+    sourcetype = 'vmstat'
+    try:
+        latest_result = get_latest_result(host, sourcetype, timespan)
+        now = latest_result.time
+        line = str(latest_result).split('\n')[1]
+        value = line.split()[4]
+    except Exception as e:
+        now = '-'
+        value = str(e)
+
+    return (now, value)
+    
+    
+
+def disk_used_pct(host, timespan):
+    sourcetype = 'df'
+    try:
+        latest_result = get_latest_result(host, sourcetype, timespan)
+        now = latest_result.time
+        line = str(latest_result).split('\n')[1]
+        value = line.split()[-2].replace('%', '')
+    except Exception as e:
+        now = '-'
+        value = str(e)
+    
+    return (now, value)
+
+
+
 def get_latest_result(host, sourcetype, timespan):
     search = 'search index="os" host="%s" sourcetype="%s"' % (host, sourcetype)
     
@@ -141,11 +159,11 @@ def usage():
     print 'usage:'
     print '  %s <stat_name> <host> [timespan]\n' % prog_name
     print 'example:'
-    print '  $ splunk cmd python %s cpu_util_pct pfcamb201\n' % prog_name
+    print '  splunk cmd python %s cpu_util_pct myserver\n' % prog_name
     print 'example:'
-    print '  $ splunk cmd python %s cpu_util_pct pfcamb201 -5m\n\n' % prog_name
+    print '  splunk cmd python %s cpu_util_pct myserver -5m\n\n' % prog_name
     print 'available stats: '
-    print '  cpu_util_pct'
+    print '  cpu_pct'
     print '  mem_used_pct'
     print '  disk_used_pct'
     print
