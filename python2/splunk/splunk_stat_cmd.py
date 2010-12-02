@@ -22,26 +22,26 @@
 #
 #
 #
-#  sample invocation (default 3 minute timespan):
+#  example call (default 3 minute timespan):
 #  > splunk cmd python splunk_stat_cmd.py cpu_util_pct myserver
 #
-#  sample output:
+#  example output:
 #  cpu_util_pct myserver 2010-12-01T16:51:20-0500 9.58
 #
 #
 #
-#  sample invocation (30 minute timespan):
+#  example call (30 minute timespan):
 #  > splunk cmd python splunk_stat_cmd.py disk_used_pct myserver -30m
 #
-#  sample output:
+#  example output:
 #  disk_used_pct myserver 2010-12-01T16:12:20-0500 18
 #
 #
 #
-#  sample invocation (0 minute timespan - forced error):
+#  example call (0 minute timespan - forced error):
 #  > splunk cmd python splunk_stat_cmd.py disk_used_pct myserver -0m
 #
-#  sample output:
+#  example output:
 #  disk_used_pct myserver - NODATA
 #
 
