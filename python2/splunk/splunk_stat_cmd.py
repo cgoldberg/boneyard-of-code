@@ -81,9 +81,11 @@ def main():
     
     try:    
         splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
-        now, value = dispatch[stat_name](host, timespan)
-    except splunk.AuthenticationFailed as e:
+    except Exception as e:
         now, value = ('-', str(e))
+    
+    try:
+        now, value = dispatch[stat_name](host, timespan)
     except KeyError as e:
         now, value = ('-', 'Invalid Stat Name')
         
