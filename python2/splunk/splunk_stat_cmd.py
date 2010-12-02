@@ -73,19 +73,20 @@ def main():
         host = sys.argv[2]
         timespan = sys.argv[3]
         
-    splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
-
     dispatch = {
         'cpu_pct': cpu_pct,
         'mem_used_pct': mem_used_pct,
         'disk_used_pct': disk_used_pct,
     }
     
-    try:
+    try:    
+        splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
         now, value = dispatch[stat_name](host, timespan)
-    except KeyError:
-        now, value = ('-', 'NODATA')
-    
+    except splunk.AuthenticationFailed as e:
+        now, value = ('-', str(e))
+    except KeyError as e:
+        now, value = ('-', 'Invalid Stat Name')
+        
     print stat_name, host, now, value 
     
     
