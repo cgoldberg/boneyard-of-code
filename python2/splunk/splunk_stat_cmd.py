@@ -3,7 +3,7 @@
 #
 #  Corey Goldberg - 2010
 # 
-#  (tested with splunk version 4.14 (contains python 2.6.4))
+#  (tested with splunk 4.x (python 2.6))
 #
 #
 #
@@ -86,8 +86,10 @@ def main():
     
     try:
         now, value = dispatch[stat_name](host, timespan)
-    except KeyError as e:
+    except KeyError:
         now, value = ('-', 'Invalid Stat Name')
+    except Exception as e:
+        now, value = ('-', str(e))
         
     print stat_name, host, now, value 
     
