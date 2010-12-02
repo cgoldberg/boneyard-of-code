@@ -1,4 +1,5 @@
-#  search splunk for monitored stats
+#  
+#  splunk_stat_cmd.py - search splunk for stats - command line tool
 #
 #  Corey Goldberg - 2010
 # 
