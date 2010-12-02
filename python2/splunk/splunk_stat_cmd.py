@@ -23,7 +23,7 @@
 #
 #
 #  example usage (default 3 minute timespan):
-#  > splunk cmd python splunk_stat_cmd.py cpu_util_pct myserver
+#  > splunk cmd python splunk_stat_cmd.py cpu_pct myserver
 #
 #  example output:
 #  cpu_util_pct myserver 2010-12-01T16:51:20-0500 9.58
@@ -39,10 +39,10 @@
 #
 #
 #  example usage (0 minute timespan - forced error):
-#  > splunk cmd python splunk_stat_cmd.py disk_used_pct myserver -0m
+#  > splunk cmd python splunk_stat_cmd.py mem_used_pct myserver -0m
 #
 #  example output:
-#  disk_used_pct myserver - NODATA
+#  mem_used_pct myserver - NODATA
 #
 
 
@@ -158,9 +158,9 @@ def usage():
     print 'usage:'
     print '  %s <stat_name> <host> [timespan]\n' % prog_name
     print 'example:'
-    print '  > splunk cmd python %s cpu_util_pct myserver\n' % prog_name
+    print '  > splunk cmd python %s cpu_pct myserver\n' % prog_name
     print 'example:'
-    print '  > splunk cmd python %s cpu_util_pct myserver -5m\n\n' % prog_name
+    print '  > splunk cmd python %s cpu_pct myserver -5m\n\n' % prog_name
     print 'available stats: '
     print '  cpu_pct'
     print '  mem_used_pct'
