@@ -155,17 +155,17 @@ def get_latest_result(host, sourcetype, timespan):
 
 def usage():
     prog_name = sys.argv[0]
-    print '\n%s\n\n' % prog_name
-    print 'usage:'
-    print '  %s <stat_name> <host> [timespan]\n' % prog_name
-    print 'example:'
-    print '  > splunk cmd python %s cpu_pct myserver\n' % prog_name
-    print 'example:'
-    print '  > splunk cmd python %s cpu_pct myserver -5m\n\n' % prog_name
-    print 'available stats: '
-    print '  cpu_pct'
-    print '  mem_used_pct'
-    print '  disk_used_pct'
+    print '\n %s\n\n' % prog_name
+    print ' usage:'
+    print '   %s <stat_name> <host> [timespan]\n' % prog_name
+    print ' example:'
+    print '   > splunk cmd python %s cpu_pct myserver\n' % prog_name
+    print ' example:'
+    print '   > splunk cmd python %s cpu_pct myserver -5m\n\n' % prog_name
+    print ' available stats: '
+    print '   cpu_pct'
+    print '   mem_used_pct'
+    print '   disk_used_pct'
     print
 
 
