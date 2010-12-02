@@ -81,9 +81,9 @@ def main():
             line = str(latest_result).split('\n')[1]
             now = latest_result.time
             value = 100.0 - float(line.split()[-1])
-        except Exception:
+        except Exception as e:
             now = '-'
-            value = 'NODATA'
+            value = e
         
     elif stat_name == 'mem_used_pct':
         sourcetype = 'vmstat'
@@ -92,9 +92,9 @@ def main():
             line = str(latest_result).split('\n')[1]
             now = latest_result.time
             value = line.split()[4]
-        except Exception:
+        except Exception as e:
             now = '-'
-            value = 'NODATA'
+            value = e
             
     elif stat_name == 'disk_used_pct':
         sourcetype = 'df'
@@ -103,9 +103,9 @@ def main():
             line = str(latest_result).split('\n')[1]
             now = latest_result.time
             value = line.split()[-2].replace('%', '')
-        except Exception:
+        except Exception as e:
             now = '-'
-            value = 'NODATA'
+            value = e
             
     else:
         print stat_name, host, '-', 'NODATA' 
@@ -118,7 +118,10 @@ def main():
 def get_latest_result(host, sourcetype, timespan):
     search = 'search index="os" host="%s" sourcetype="%s"' % (host, sourcetype)
     
-    job = splunk.search.dispatch(search, earliest_time=timespan, hostPath='https://%s:8089' % SPLUNK_SERVER)
+    try:
+        job = splunk.search.dispatch(search, earliest_time=timespan, hostPath='https://%s:8089' % SPLUNK_SERVER)
+    except splunk.SearchException:
+        raise Exception('NODATA')
     
     while not job.isDone:
         time.sleep(.25)
@@ -127,7 +130,7 @@ def get_latest_result(host, sourcetype, timespan):
         last_result = job.results[0]
     except IndexError:
         raise Exception('NODATA')
-        
+    
     return last_result
 
 
