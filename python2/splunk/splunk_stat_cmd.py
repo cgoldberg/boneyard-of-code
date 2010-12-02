@@ -23,7 +23,7 @@
 #
 #
 #  sample invocation (default 3 minute timespan):
-#  splunk cmd python splunk_stat_cmd.py cpu_util_pct myserver
+#  > splunk cmd python splunk_stat_cmd.py cpu_util_pct myserver
 #
 #  sample output:
 #  cpu_util_pct myserver 2010-12-01T16:51:20-0500 9.58
@@ -31,7 +31,7 @@
 #
 #
 #  sample invocation (30 minute timespan):
-#  splunk cmd python splunk_stat_cmd.py disk_used_pct myserver -30m
+#  > splunk cmd python splunk_stat_cmd.py disk_used_pct myserver -30m
 #
 #  sample output:
 #  disk_used_pct myserver 2010-12-01T16:12:20-0500 18
@@ -39,7 +39,7 @@
 #
 #
 #  sample invocation (0 minute timespan - forced error):
-#  splunk cmd python splunk_stat_cmd.py disk_used_pct myserver -0m
+#  > splunk cmd python splunk_stat_cmd.py disk_used_pct myserver -0m
 #
 #  sample output:
 #  disk_used_pct myserver - NODATA
@@ -137,10 +137,7 @@ def disk_used_pct(host, timespan):
 def get_latest_result(host, sourcetype, timespan):
     search = 'search index="os" host="%s" sourcetype="%s"' % (host, sourcetype)
     
-    try:
-        job = splunk.search.dispatch(search, earliest_time=timespan, hostPath='https://%s:8089' % SPLUNK_SERVER)
-    except splunk.SearchException:
-        raise Exception('NODATA')
+    job = splunk.search.dispatch(search, earliest_time=timespan, hostPath='https://%s:8089' % SPLUNK_SERVER)
     
     while not job.isDone:
         time.sleep(.25)
@@ -160,9 +157,9 @@ def usage():
     print 'usage:'
     print '  %s <stat_name> <host> [timespan]\n' % prog_name
     print 'example:'
-    print '  splunk cmd python %s cpu_util_pct myserver\n' % prog_name
+    print '  > splunk cmd python %s cpu_util_pct myserver\n' % prog_name
     print 'example:'
-    print '  splunk cmd python %s cpu_util_pct myserver -5m\n\n' % prog_name
+    print '  > splunk cmd python %s cpu_util_pct myserver -5m\n\n' % prog_name
     print 'available stats: '
     print '  cpu_pct'
     print '  mem_used_pct'
