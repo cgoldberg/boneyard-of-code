@@ -83,7 +83,7 @@ def main():
             value = 100.0 - float(line.split()[-1])
         except Exception as e:
             now = '-'
-            value = e
+            value = str(e)
         
     elif stat_name == 'mem_used_pct':
         sourcetype = 'vmstat'
@@ -94,7 +94,7 @@ def main():
             value = line.split()[4]
         except Exception as e:
             now = '-'
-            value = e
+            value = str(e)
             
     elif stat_name == 'disk_used_pct':
         sourcetype = 'df'
@@ -105,7 +105,7 @@ def main():
             value = line.split()[-2].replace('%', '')
         except Exception as e:
             now = '-'
-            value = e
+            value = str(e)
             
     else:
         print stat_name, host, '-', 'NODATA' 
