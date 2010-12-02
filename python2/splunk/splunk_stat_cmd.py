@@ -74,16 +74,17 @@ def main():
         timespan = sys.argv[3]
         
     splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
-     
-    if stat_name == 'cpu_pct':
-        now, value = cpu_pct(host, timespan)
-    elif stat_name == 'mem_used_pct':
-        now, value = mem_used_pct(host, timespan)
-    elif stat_name == 'disk_used_pct':
-        now, value = disk_used_pct(host, timespan)
-    else:
-        now = '-' 
-        value = 'NODATA' 
+
+    dispatch = {
+        'cpu_pct': cpu_pct,
+        'mem_used_pct': mem_used_pct,
+        'disk_used_pct': disk_used_pct,
+    }
+    
+    try:
+        now, value = dispatch[stat_name](host, timespan)
+    except KeyError:
+        now, value = ('-', 'NODATA')
     
     print stat_name, host, now, value 
     
