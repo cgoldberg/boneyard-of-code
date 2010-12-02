@@ -64,14 +64,13 @@ def main():
     if len(sys.argv) < 3:
         usage()
         sys.exit(1)
-    if len(sys.argv) == 3:
+    else:
         stat_name = sys.argv[1]
         host = sys.argv[2]
-        timespan = '-3m'
-    if len(sys.argv) == 4:
-        stat_name = sys.argv[1]
-        host = sys.argv[2]
-        timespan = sys.argv[3]
+        if len(sys.argv) == 3:
+            timespan = '-3m'
+        if len(sys.argv) > 3:
+            timespan = sys.argv[3]
         
     dispatch = {
         'cpu_pct': cpu_pct,
