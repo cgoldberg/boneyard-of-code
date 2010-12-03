@@ -170,9 +170,9 @@ def usage():
     print ' example:'
     print '   > splunk cmd python %s cpu_pct myserver -5m\n\n' % prog_name
     print ' available stats: '
-    print '   cpu_pct'
-    print '   mem_used_pct'
-    print '   disk_used_pct'
+    print '   - cpu_pct'
+    print '   - mem_used_pct'
+    print '   - disk_used_pct'
     print
 
 
