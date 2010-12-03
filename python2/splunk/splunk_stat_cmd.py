@@ -64,6 +64,7 @@ def main():
     if len(sys.argv) not in (3, 4):
         usage()
         sys.exit(1)
+        
     stat_name = sys.argv[1]
     host = sys.argv[2]
     
