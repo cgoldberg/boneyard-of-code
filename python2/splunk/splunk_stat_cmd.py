@@ -26,7 +26,7 @@
 #  > splunk cmd python splunk_stat_cmd.py cpu_pct myserver
 #
 #  example output:
-#  cpu_util_pct myserver 2010-12-01T16:51:20-0500 9.58
+#  |cpu_pct|myserver|2010-12-02T21:34:09-0500|4.93|
 #
 #
 #
@@ -34,15 +34,15 @@
 #  > splunk cmd python splunk_stat_cmd.py disk_used_pct myserver -30m
 #
 #  example output:
-#  disk_used_pct myserver 2010-12-01T16:12:20-0500 18
+#  |disk_used_pct|myserver|2010-12-02T21:35:09-0500|18|
 #
 #
 #
-#  example usage (0 minute timespan - forced error):
+#  example usage (0 minute timespan):
 #  > splunk cmd python splunk_stat_cmd.py mem_used_pct myserver -0m
 #
 #  example output:
-#  mem_used_pct myserver - NODATA
+#  |mem_used_pct|myserver|-|NODATA|
 #
 
 
@@ -94,7 +94,7 @@ def main():
         now, value = ('-', str(e))
         
     
-    print stat_name, host, now, value 
+    print '|%s|%s|%s|%s|' % (stat_name, host, now, value) 
     
     
 
