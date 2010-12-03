@@ -70,17 +70,17 @@ def main():
         timespan = '-3m'
     else:
         timespan = sys.argv[3]
-        
-    dispatch = {
-        'cpu_pct': cpu_pct,
-        'mem_used_pct': mem_used_pct,
-        'disk_used_pct': disk_used_pct,
-    }
     
     try:    
         splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
     except Exception as e:
         now, value = ('-', str(e))
+    
+    dispatch = {
+        'cpu_pct': cpu_pct,
+        'mem_used_pct': mem_used_pct,
+        'disk_used_pct': disk_used_pct,
+    }
     
     try:
         now, value = dispatch[stat_name](host, timespan)
