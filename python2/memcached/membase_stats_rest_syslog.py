@@ -50,7 +50,7 @@ def main():
     if TAGGED_DATA:
         tagged_data = tag(results)
         if SYSLOG_OUTPUT:
-            syslog.syslog(tagged_data)
+            syslog.syslog('%s: %s' % (__file__, tagged_data))
         if CONSOLE_OUTPUT:
             print tagged_data
             
@@ -106,9 +106,9 @@ if __name__== '__main__':
 
 #  sample tagged output:
 #
-#  default-diskFetches="0" default-diskUsed="10240" default-itemCount="0" default-memUsed="25789640" default-opsPerSec="0"
-#  default-quotaPercentUsed="19.2147791386" mb1-diskFetches="0" mb1-diskUsed="10240" mb1-itemCount="0" mb1-memUsed="25789640"
-#  mb1-opsPerSec="0" mb1-quotaPercentUsed="19.2147791386" mc1-diskUsed="0" mc1-hitRatio="0" mc1-itemCount="0" mc1-memUsed="0"
-#  mc1-opsPerSec="0" mc1-quotaPercentUsed="0.0" mc2-diskUsed="0" mc2-hitRatio="0" mc2-itemCount="0" mc2-memUsed="0"
-#  mc2-opsPerSec="0" mc2-quotaPercentUsed="0.0"
+#  ./membase_stats_rest_syslog.py: default-diskFetches="0" default-diskUsed="10240" default-itemCount="0" 
+#  default-memUsed="25789640" default-opsPerSec="0" default-quotaPercentUsed="19.2147791386" mb1-diskFetches="0" 
+#  mb1-diskUsed="10240" mb1-itemCount="0" mb1-memUsed="25789640" mb1-opsPerSec="0" mb1-quotaPercentUsed="19.2147791386"
+#  mc1-diskUsed="0" mc1-hitRatio="0" mc1-itemCount="0" mc1-memUsed="0" mc1-opsPerSec="0" mc1-quotaPercentUsed="0.0" 
+#  mc2-diskUsed="0" mc2-hitRatio="0" mc2-itemCount="0" mc2-memUsed="0" mc2-opsPerSec="0" mc2-quotaPercentUsed="0.0"
 
