@@ -61,16 +61,15 @@ PASSWORD = 'foo'
 
 
 def main():
-    if len(sys.argv) < 3:
+    if len(sys.argv) not in (3, 4):
         usage()
         sys.exit(1)
+    stat_name = sys.argv[1]
+    host = sys.argv[2] 
+    if len(sys.argv) == 3:
+        timespan = '-3m'
     else:
-        stat_name = sys.argv[1]
-        host = sys.argv[2]
-        if len(sys.argv) == 3:
-            timespan = '-3m'
-        if len(sys.argv) > 3:
-            timespan = sys.argv[3]
+        timespan = sys.argv[3]
         
     dispatch = {
         'cpu_pct': cpu_pct,
