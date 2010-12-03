@@ -103,7 +103,7 @@ def cpu_pct(host, timespan):
     try:
         latest_result = get_latest_result(host, sourcetype, timespan)
         now = latest_result.time
-        line = str(latest_result).split('\n')[1]
+        line = str(latest_result).splitlines()[1]
         value = 100.0 - float(line.split()[-1])
     except Exception as e:
         now = '-'
@@ -118,7 +118,7 @@ def mem_used_pct(host, timespan):
     try:
         latest_result = get_latest_result(host, sourcetype, timespan)
         now = latest_result.time
-        line = str(latest_result).split('\n')[1]
+        line = str(latest_result).splitlines()[1]
         value = line.split()[4]
     except Exception as e:
         now = '-'
@@ -133,7 +133,7 @@ def disk_used_pct(host, timespan):
     try:
         latest_result = get_latest_result(host, sourcetype, timespan)
         now = latest_result.time
-        line = str(latest_result).split('\n')[1]
+        line = str(latest_result).splitlines()[1]
         value = line.split()[-2].replace('%', '')
     except Exception as e:
         now = '-'
