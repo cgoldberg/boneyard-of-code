@@ -65,16 +65,19 @@ def main():
         usage()
         sys.exit(1)
     stat_name = sys.argv[1]
-    host = sys.argv[2] 
+    host = sys.argv[2]
+    
     if len(sys.argv) == 3:
         timespan = '-3m'
     else:
         timespan = sys.argv[3]
     
+    
     try:    
         splunk.auth.getSessionKey(USER_NAME, PASSWORD, hostPath='https://%s:8089' % SPLUNK_SERVER)
     except Exception as e:
         now, value = ('-', str(e))
+    
     
     dispatch = {
         'cpu_pct': cpu_pct,
@@ -89,6 +92,7 @@ def main():
     except Exception as e:
         now, value = ('-', str(e))
         
+    
     print stat_name, host, now, value 
     
     
