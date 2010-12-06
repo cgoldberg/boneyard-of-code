@@ -1,5 +1,5 @@
 #  
-#  splunk_stat_cmd.py - search splunk for stats - command line tool
+#  splunk_alert_cmd.py - search splunk for alertable stats - command line tool
 #
 #  Corey Goldberg - 2010
 # 
@@ -23,7 +23,7 @@
 #
 #
 #  example usage (default 3 minute timespan):
-#  > splunk cmd python splunk_stat_cmd.py cpu_pct myserver
+#  > splunk cmd python splunk_alert_cmd.py cpu_pct myserver
 #
 #  example output:
 #  |cpu_pct|myserver|2010-12-02T21:34:09-0500|4.93|
@@ -31,7 +31,7 @@
 #
 #
 #  example usage (30 minute timespan):
-#  > splunk cmd python splunk_stat_cmd.py disk_used_pct myserver -30m
+#  > splunk cmd python splunk_alert_cmd.py disk_used_pct myserver -30m
 #
 #  example output:
 #  |disk_used_pct|myserver|2010-12-02T21:35:09-0500|18|
@@ -39,7 +39,7 @@
 #
 #
 #  example usage (0 minute timespan):
-#  > splunk cmd python splunk_stat_cmd.py mem_used_pct myserver -0m
+#  > splunk cmd python splunk_alert_cmd.py mem_used_pct myserver -0m
 #
 #  example output:
 #  |mem_used_pct|myserver|-|NODATA|
