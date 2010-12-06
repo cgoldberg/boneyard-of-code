@@ -7,6 +7,7 @@
 
 
 
+import syslog
 import time
 import memcache
 
