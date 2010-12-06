@@ -15,14 +15,14 @@ import memcache
 # Config Settings
 HOST = '192.168.12.171' 
 PORT = '11211'
-KEY_LENGTH = 30000  # bytes
+DATA_SIZE = 30000  # value size in bytes
 
 
 
 def main():
     mc = memcache.Client(('%s:%s' % (HOST, PORT),))
     
-    data = '*' * KEY_LENGTH  # 30kb value
+    data = '*' * DATA_SIZE  # 30kb value
     key = 'test_key_%s' % HOST
     
     try:
