@@ -16,9 +16,9 @@
 #
 #
 #  available stats:
-#   - cpu_pct
-#   - mem_used_pct
-#   - disk_used_pct
+#   - cpu_pct  (processor utilization percent)
+#   - mem_used_pct  (memory used percent)
+#   - disk_used_pct  (disk space used percent)
 #
 #
 #
@@ -170,9 +170,9 @@ def usage():
     print ' example:'
     print '   > splunk cmd python %s cpu_pct myserver -5m\n\n' % prog_name
     print ' available stats: '
-    print '   - cpu_pct'
-    print '   - mem_used_pct'
-    print '   - disk_used_pct'
+    print '   - cpu_pct  (processor utilization percent)'
+    print '   - mem_used_pct  (memory used percent)'
+    print '   - disk_used_pct  (disk space used percent)'
     print
 
 
