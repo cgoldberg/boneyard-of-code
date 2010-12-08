@@ -11,7 +11,7 @@
 #   - save script into splunk's "bin" directory
 #     (usually "/opt/splunk/bin" or "C:\Program Files\Splunk\bin")
 #   - go to the "bin" directory on the command line and run: 
-#     splunk cmd python splunk_stat_cmd.py <stat_name> <host> [timespan]
+#     splunk cmd python splunk_alert_cmd.py <stat_name> <host> [timespan]
 #
 #
 #
