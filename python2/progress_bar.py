@@ -1,9 +1,31 @@
 #!/usr/bin/env python
 #
-# ascii command-line progress bar with percentage and elapsed time display
+#  Corey Goldberg - 2010
+#  ascii command-line progress bar with percentage and elapsed time display
 # 
-# adapted from Pylot source code (original by Vasil Vangelovski)
-# modified by Corey Goldberg - 2010
+
+
+"""
+example output:
+
+
+$ python progress.py 
+
+static progress bar:
+[##########       25%                  ]  15s/60s
+
+static progress bar:
+[=================83%============      ]  25s/30s
+
+
+dynamic updating progress bar (nix only):
+
+please wait 10 seconds...
+
+[################100%##################]  10s/10s
+done
+
+"""
 
 
 
@@ -21,7 +43,7 @@ class ProgressBar:
         num_hashes = int(round((percent_done / 100.0) * all_full))
         self.prog_bar = '[' + self.fill_char * num_hashes + ' ' * (all_full - num_hashes) + ']'
         pct_place = (len(self.prog_bar) / 2) - len(str(percent_done))
-        pct_string = '%i%%' % percent_done
+        pct_string = '%d%%' % percent_done
         self.prog_bar = self.prog_bar[0:pct_place] + \
             (pct_string + self.prog_bar[pct_place + len(pct_string):])
         
@@ -35,11 +57,50 @@ class ProgressBar:
         
         
 if __name__ == '__main__':
+    # example usage
+    
+    import sys
+    import time
+    
+    
+    # print a static progress bar
+    #  [##########       25%                  ]  15s/60s
+
     p = ProgressBar(60)
-    
     p.update_time(15)
+    print '\nstatic progress bar:'
     print p
     
+    
+    # print a static progress bar
+    #  [=================83%============      ]  25s/30s
+
+    p = ProgressBar(30)
     p.fill_char = '='
-    p.update_time(40)
+    p.update_time(25)
+    print '\nstatic progress bar:'
     print p
+    
+    
+    # print a dynamic updating progress bar on one line (nix only):
+    #
+    #  [################100%##################]  10s/10s
+    #  done
+    
+    secs = 10
+    p = ProgressBar(secs)
+    print '\n\ndynamic updating progress bar (nix only):'
+    print '\nplease wait %d seconds...\n' % secs
+    
+    # spawn threaded or multiprocessed code here that runs for secs
+    
+    for i in range(secs):
+        print p
+        sys.stdout.write(chr(27) + '[A' )
+        p.update_time(i + 1)
+        time.sleep(1) 
+    print p
+    print 'done'
+    
+
+
