@@ -9,7 +9,7 @@
 example output:
 
 
-$ python progress.py 
+$ python progress_bar.py 
 
 static progress bar:
 [##########       25%                  ]  15s/60s
