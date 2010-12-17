@@ -98,8 +98,7 @@ if __name__ == '__main__':
         if sys.platform.startswith('win'):
             print p, '\r',
         else:
-            print p
-            sys.stdout.write(chr(27) + '[A' )
+            print p, chr(27) + '[A'
         p.update_time(i + 1)
         time.sleep(1) 
     print p
