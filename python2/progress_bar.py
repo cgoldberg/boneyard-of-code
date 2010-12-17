@@ -18,7 +18,7 @@ static progress bar:
 [=================83%============      ]  25s/30s
 
 
-dynamic updating progress bar (nix only):
+dynamic updating progress bar:
 
 please wait 10 seconds...
 
@@ -82,21 +82,24 @@ if __name__ == '__main__':
     print p
     
     
-    # print a dynamic updating progress bar on one line (nix only):
+    # print a dynamic updating progress bar on one line:
     #
     #  [################100%##################]  10s/10s
     #  done
     
     secs = 10
     p = ProgressBar(secs)
-    print '\n\ndynamic updating progress bar (nix only):'
+    print '\n\ndynamic updating progress bar:'
     print '\nplease wait %d seconds...\n' % secs
     
     # spawn threaded or multiprocessed code here that runs for secs
     
     for i in range(secs):
-        print p
-        sys.stdout.write(chr(27) + '[A' )
+        if sys.platform.startswith('win'):
+            print p, '\r',
+        else:
+            print p
+            sys.stdout.write(chr(27) + '[A' )
         p.update_time(i + 1)
         time.sleep(1) 
     print p
