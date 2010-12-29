@@ -6,9 +6,9 @@
 """
     linux_cpu_stat - Python Module for CPU Stats on Linux
     
-    requires:
-    - Python 3
-    - Linux 2.6.x
+    - works with both Python 2.6+ and Python 3
+    - requires Linux 2.6.x
+    - tested on Intel 64-bit (AMD64) SMP.  your mileage may vay on other architectures
     
     
     functions:
