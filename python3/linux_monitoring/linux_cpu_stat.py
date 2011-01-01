@@ -163,8 +163,8 @@ if __name__ == '__main__':
     
     print('cpu mode percents:')
     pprint.pprint(cpu_pcts)
-
-    print('cpu times:'.format(cpu_times()))
+    
+    print('cpu times: {0}'.format(cpu_times()))
     
     cpu_info = cpu_info()
     
@@ -178,5 +178,47 @@ if __name__ == '__main__':
     print('procs blocked: {0}'.format(procs_blocked()))    
     
     print('load avg: {0}'.format(load_avg()))
-    
+
+
+
+"""
+Sample output:
+
+cpu utilization: 4.88
+cpu mode percents:
+{'idle': 95.121951219512198,
+ 'iowait': 0.0,
+ 'irq': 0.0,
+ 'nice': 0.0,
+ 'softirq': 0.0,
+ 'system': 3.41463414634147,
+ 'user': 1.4634146341463463}
+cpu times: [911310, 7134, 648526, 23352944, 68122, 175, 2790, 0, 0, 0]
+cpu info:
+{'address sizes': '36 bits physical, 48 bits virtual',
+ 'apicid': '1',
+ 'bogomips': '3989.96',
+ 'cache size': '2048 KB',
+ 'cache_alignment': '64',
+ 'clflush size': '64',
+ 'cpu MHz': '2000.000',
+ 'cpu cores': '2',
+ 'cpu family': '6',
+ 'cpuid level': '13',
+ 'flags': 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx lm constant_tsc arch_perfmon pebs bts rep_good aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 cx16 xtpr pdcm sse4_1 xsave lahf_lm dts',
+ 'fpu': 'yes',
+ 'fpu_exception': 'yes',
+ 'initial apicid': '1',
+ 'model': '23',
+ 'model name': 'Intel(R) Core(TM)2 Duo CPU     T6400  @ 2.00GHz',
+ 'physical id': '0',
+ 'siblings': '2',
+ 'stepping': '10',
+ 'vendor_id': 'GenuineIntel',
+ 'wp': 'yes'}
+num cores: 2
+procs running: 2
+procs blocked: 0
+load avg: [0.84999999999999998, 0.56000000000000005, 0.38]
+"""
 
