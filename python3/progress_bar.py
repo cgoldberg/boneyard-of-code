@@ -104,8 +104,9 @@ if __name__ == '__main__':
     print('\n\ndynamic updating progress bar:')
     print('\nplease wait %d seconds...\n' % secs)
     
-    # spawn threaded or multiprocessed code here that runs for secs
-
+    # spawn asych (threads/processes/etc) code here that runs for secs.
+    # the call to .animate() blocks the main thread.
+    
     p.animate(secs)
     
     print('done')
