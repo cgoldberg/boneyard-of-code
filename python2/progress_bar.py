@@ -29,6 +29,11 @@ done
 
 
 
+import sys
+import time
+
+
+
 class ProgressBar:
     def __init__(self, duration):
         self.duration = duration
@@ -36,7 +41,21 @@ class ProgressBar:
         self.fill_char = '#'
         self.width = 40
         self.__update_amount(0)
-    
+
+    def animate(self, secs):
+        for i in range(secs):
+            if sys.platform.startswith('win'):
+                print p, '\r',
+            else:
+                print p, chr(27) + '[A'
+            p.update_time(i + 1)
+            time.sleep(1) 
+        print p
+        
+    def update_time(self, elapsed_secs):
+        self.__update_amount((elapsed_secs / float(self.duration)) * 100.0)
+        self.prog_bar += '  %ds/%ss' % (elapsed_secs, self.duration)
+        
     def __update_amount(self, new_amount):
         percent_done = int(round((new_amount / 100.0) * 100.0))
         all_full = self.width - 2
@@ -47,21 +66,14 @@ class ProgressBar:
         self.prog_bar = self.prog_bar[0:pct_place] + \
             (pct_string + self.prog_bar[pct_place + len(pct_string):])
         
-    def update_time(self, elapsed_secs):
-        self.__update_amount((elapsed_secs / float(self.duration)) * 100.0)
-        self.prog_bar += '  %ds/%ss' % (elapsed_secs, self.duration)
-        
     def __str__(self):
         return str(self.prog_bar)
         
         
-        
+
+
 if __name__ == '__main__':
-    # example usage
-    
-    import sys
-    import time
-    
+    """ example usage """   
     
     # print a static progress bar
     #  [##########       25%                  ]  15s/60s
@@ -92,17 +104,10 @@ if __name__ == '__main__':
     print '\n\ndynamic updating progress bar:'
     print '\nplease wait %d seconds...\n' % secs
     
-    # spawn threaded or multiprocessed code here that runs for secs
+    # spawn asych (threads/processes/etc) code here that runs for secs.
+    # the call to .animate() blocks the main thread.
     
-    for i in range(secs):
-        if sys.platform.startswith('win'):
-            print p, '\r',
-        else:
-            print p, chr(27) + '[A'
-        p.update_time(i + 1)
-        time.sleep(1) 
-    print p
+    p.animate(secs)
+    
     print 'done'
     
-
-
