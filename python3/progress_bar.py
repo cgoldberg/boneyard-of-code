@@ -73,7 +73,7 @@ class ProgressBar:
       
 
 if __name__ == '__main__':
-    # example usage   
+    """ example usage """   
     
     # print a static progress bar
     #  [##########       25%                  ]  15s/60s
