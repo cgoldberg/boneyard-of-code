@@ -33,6 +33,13 @@ import sys
 import time
 
 
+
+if sys.platform.lower().startswith('win'):
+    on_windows = True
+else:
+    on_windows = False
+    
+    
     
 class ProgressBar:
     def __init__(self, duration):
@@ -44,13 +51,13 @@ class ProgressBar:
     
     def animate(self, secs):
         for i in range(secs):
-            if sys.platform.lower().startswith('win'):
-                print(p, end='\r')
+            if on_windows:
+                print(self, end='\r')
             else:
-                print(p, (chr(27) + '[A'))
-            p.update_time(i + 1)
+                print(self, (chr(27) + '[A'))
+            self.update_time(i + 1)
             time.sleep(1) 
-        print(p)
+        print(self)
         
     def update_time(self, elapsed_secs):
         self.__update_amount((elapsed_secs / float(self.duration)) * 100.0)
