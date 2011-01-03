@@ -5,29 +5,6 @@
 # 
 
 
-"""
-example output:
-
-
-$ python progress_bar.py 
-
-static progress bar:
-[##########       25%                  ]  15s/60s
-
-static progress bar:
-[=================83%============      ]  25s/30s
-
-
-dynamic updating progress bar:
-
-please wait 10 seconds...
-
-[################100%##################]  10s/10s
-done
-
-"""
-
-
 
 import sys
 import time
@@ -117,4 +94,27 @@ if __name__ == '__main__':
     p.animate(secs)
     
     print 'done'
-    
+
+
+
+"""
+example output:
+
+
+$ python progress_bar.py 
+
+static progress bar:
+[##########       25%                  ]  15s/60s
+
+static progress bar:
+[=================83%============      ]  25s/30s
+
+
+dynamic updating progress bar:
+
+please wait 10 seconds...
+
+[################100%##################]  10s/10s
+done
+
+"""
