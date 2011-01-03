@@ -3,6 +3,7 @@
 #  Corey Goldberg - 2010-2011 - http://goldb.org
 #  
 
+
 """
 progress-bar.py - ascii command-line progress bar with percentage and elapsed time display
 
