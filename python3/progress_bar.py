@@ -1,32 +1,43 @@
 #!/usr/bin/env python3
 #
-#  Corey Goldberg - 2010
-#  ascii command-line progress bar with percentage and elapsed time display
-# 
-
+#  Corey Goldberg - 2010-2011 - http://goldb.org
+#  
 
 """
-example output:
+progress-bar.py - ascii command-line progress bar with percentage and elapsed time display
+
+example usage:
+
+    #!/usr/bin/env python3
+
+    import progress_bar
 
 
-$ python progress_bar.py 
+    # print a static progress bar:
+    #  [##########       25%                  ]  15s/60s
 
-static progress bar:
-[##########       25%                  ]  15s/60s
-
-static progress bar:
-[=================83%============      ]  25s/30s
+    p = progress_bar.ProgressBar(60)
+    p.update_time(15)
+    print(p)
 
 
-dynamic updating progress bar:
+    # print a dynamic updating progress bar on one line:
+    #
+    #  [################100%##################]  10s/10s
+    #  done
 
-please wait 10 seconds...
+    secs = 10
+    p = progress_bar.ProgressBar(secs)
+    print('\nplease wait %d seconds...\n' % secs)
 
-[################100%##################]  10s/10s
-done
+    # spawn asych (threads/processes/etc) code here that runs for secs.
+    # the call to .animate() blocks the main thread.
 
-"""
+    p.animate(secs)
 
+    print('done')
+
+""" 
 
 
 import sys
@@ -80,7 +91,6 @@ class ProgressBar:
       
 
 if __name__ == '__main__':
-    """ example usage """   
     
     # print a static progress bar
     #  [##########       25%                  ]  15s/60s
@@ -117,4 +127,29 @@ if __name__ == '__main__':
     p.animate(secs)
     
     print('done')
+    
+    
+    
+"""
+example output:
+
+
+$ python progress_bar.py 
+
+static progress bar:
+[##########       25%                  ]  15s/60s
+
+static progress bar:
+[=================83%============      ]  25s/30s
+
+
+dynamic updating progress bar:
+
+please wait 10 seconds...
+
+[################100%##################]  10s/10s
+done
+
+"""
+
     
