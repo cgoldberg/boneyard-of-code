@@ -17,9 +17,9 @@ example usage:
     # print a static progress bar:
     #  [##########       25%                  ]  15s/60s
 
-    p = progress_bar.ProgressBar(60)
-    p.update_time(15)
-    print(p)
+    pb = progress_bar.ProgressBar(60)
+    pb.update_time(15)
+    print(pb)
 
 
     # print a dynamic updating progress bar on one line:
@@ -28,13 +28,13 @@ example usage:
     #  done
 
     secs = 10
-    p = progress_bar.ProgressBar(secs)
+    pb = progress_bar.ProgressBar(secs)
     print('\nplease wait %d seconds...\n' % secs)
 
     # spawn asych (threads/processes/etc) code here that runs for secs.
     # the call to .animate() blocks the main thread.
 
-    p.animate(secs)
+    pb.animate(secs)
 
     print('done')
 
