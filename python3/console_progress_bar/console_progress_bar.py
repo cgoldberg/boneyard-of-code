@@ -14,14 +14,14 @@ example usage:
 
         #!/usr/bin/env python3
 
-        import console_progress_bar
+        import console_progress_bar as pb
 
         # print a static progress bar:
         #  [##########       25%                  ]  15s/60s
 
-        pb = console_progress_bar.ProgressBar(60)
-        pb.update_time(15)
-        print(pb)
+        prog_bar = pb.ProgressBar(60)
+        prog_bar.update_time(15)
+        print(prog_bar)
 
         # print a dynamic updating progress bar on one line:
         #
@@ -29,13 +29,13 @@ example usage:
         #  done
 
         secs = 10
-        pb = console_progress_bar.ProgressBar(secs)
+        prog_bar = pb.ProgressBar(secs)
         print('\nplease wait %d seconds...\n' % secs)
 
         # spawn asych (threads/processes/etc) code here that runs for secs.
         # the call to .animate() blocks the main thread.
 
-        pb.animate(secs)
+        prog_bar.animate(secs)
 
         print('done')
 
