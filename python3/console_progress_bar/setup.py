@@ -4,7 +4,7 @@
 #
 
 
-""" Setup script for console_progress_bar """
+""" setup script for console_progress_bar """
 
 
 from distutils.core import setup
