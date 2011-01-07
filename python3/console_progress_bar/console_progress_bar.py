@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 #
-#  Corey Goldberg - 2010-2011 - http://goldb.org
-#  
+#  Copyright (c) 2010-2011 Corey Goldberg (http://goldb.org)
+#
+#  License :: OSI Approved :: MIT License (http://www.opensource.org/licenses/mit-license)
+#    
 
 
 """
