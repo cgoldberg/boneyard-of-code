@@ -34,7 +34,7 @@ setup(
         author = 'Corey Goldberg',
         author_email = 'corey@goldb.org',
         url = 'http://code.google.com/p/corey-projects/wiki/linux_metrics',
-        download_url = '',
+        download_url = 'http://code.google.com/p/corey-projects/downloads/list',
         packages = ['linux_metrics'],
         platforms = ['Linux'],
         license = 'MIT',
