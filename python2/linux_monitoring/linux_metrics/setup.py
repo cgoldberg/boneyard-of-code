@@ -33,7 +33,7 @@ setup(
         description = 'System Metrics/Stats for Linux',
         author = 'Corey Goldberg',
         author_email = 'corey@goldb.org',
-        url = '',
+        url = 'http://code.google.com/p/corey-projects/wiki/linux_metrics',
         download_url = '',
         packages = ['linux_metrics'],
         platforms = ['Linux'],
