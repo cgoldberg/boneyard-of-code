@@ -1,65 +1,75 @@
 #!/usr/bin/env python
-# Corey Goldberg - Dec 2009
+# Corey Goldberg - 2009, 2011
+# http profiler
+
 
 
 import httplib
-import sys
+import os.path
 import time
+import urlparse
 import rrd
 
 
-GRAPH_MINS = 15
 
-if len(sys.argv) != 3:
-    print 'usage:\nhttp_rrd_profiler.py <host> <interval>\n'
-    sys.exit(1)
-host = sys.argv[1]
-interval = int(sys.argv[2])
+HOST = 'http://192.168.1.5:8000'
+URLS = (
+    '%s/api/foo' % HOST,
+    '%s/api/bar' % HOST,
+    ) 
+POLLING_INTERVAL = 30  # secs
+GRAPH_MINS = (60, 720)
 
 
-# choose timer to use
-if sys.platform.startswith('win'):
-    default_timer = time.clock
-else:
-    default_timer = time.time
-    
-    
     
 def main():
-    my_rrd = rrd.RRD('http_latency.rrd')
-    my_rrd.create_rrd(interval)
+    parsed_urls = [urlparse.urlparse(url) for url in URLS]
+    for parsed_url in parsed_urls:
+        title = '%s.rrd' % parsed_url.path.replace('/', '_')
+        if not os.path.exists(title):
+            my_rrd = rrd.RRD(title)
+            my_rrd.create_rrd(POLLING_INTERVAL)
     while True:
-        start = default_timer()
-        try:
-            times = timed_req(host)
-        except Exception, e:
-            print 'failed: ' % e
-        size, request_time, response_time, transfer_time = times
-        print '----------------'
-        print '%.0f request sent' % request_time
-        print '%.0f response received' % response_time
-        print '%.0f content transferred (%i bytes)' % (transfer_time, size)
-        time_set = (request_time, response_time, transfer_time)
-        my_rrd.update(time_set)
-        my_rrd.graph(GRAPH_MINS)
-        elapsed = default_timer() - start
-        if interval > elapsed:
-            time.sleep(interval - elapsed)
+        start = time.time()
+        for parsed_url in parsed_urls:
+            title = '%s.rrd' % parsed_url.path.replace('/', '_')
+            my_rrd = rrd.RRD(title)
+            print '--------------------------------'
+            print parsed_url.geturl()
+            try:
+                status, reason, size, request_time, response_time, transfer_time = timed_req(parsed_url)
+                print '%s %s - %s' % (status, reason, time.strftime('%D %H:%M:%S', time.localtime()))
+                print '%.0f ms => request sent' % request_time
+                print '%.0f ms => response received' % response_time
+                print '%.0f ms => content transferred (%i bytes)' % (transfer_time, size)
+                times = (request_time, response_time, transfer_time)
+                my_rrd.update(times)
+                for mins in GRAPH_MINS:
+                    my_rrd.graph(mins)
+            except Exception as e:
+                print 'failed: %s' % e
+        elapsed = time.time() - start
+        if POLLING_INTERVAL > elapsed:
+            time.sleep(POLLING_INTERVAL - elapsed)
         
 
-
-def timed_req(host):
-    conn = httplib.HTTPConnection(host)
+def timed_req(parsed_url):
+    if parsed_url.scheme == 'https':
+        conn = httplib.HTTPSConnection(parsed_url.netloc)
+    else:
+        conn = httplib.HTTPConnection(parsed_url.netloc)
     conn.set_debuglevel(0)
-    start_timer = default_timer()
-    conn.request('GET', '/')     
-    request_timer = default_timer()
+    start_timer = time.time()
+    conn.request('GET', parsed_url.path)     
+    request_timer = time.time()
     resp = conn.getresponse()
-    response_timer = default_timer()
+    response_timer = time.time()
     content = resp.read()
     conn.close()
-    transfer_timer = default_timer()
+    transfer_timer = time.time()
     size = len(content)
+    
+    assert resp.status == 200, resp.reason
     
     # convert to offset millisecs
     request_time = (request_timer - start_timer) * 1000
@@ -67,6 +77,8 @@ def timed_req(host):
     transfer_time = (transfer_timer - start_timer) * 1000
             
     return (
+        resp.status,
+        resp.reason,
         size,
         request_time, 
         response_time, 
@@ -74,6 +86,6 @@ def timed_req(host):
         )
 
 
-
 if __name__ == '__main__':
     main()
+
