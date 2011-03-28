@@ -22,14 +22,14 @@ import urlparse
 import rrd
 
 
-
-HOST = 'http://192.168.1.5:8000'
+#config settings
+POLLING_INTERVAL = 30  # secs
+GRAPH_MINS = (60, 720, 10080)
+HOST = 'http://hostname_or_ip'
 URLS = (
     '%s/api/foo' % HOST,
     '%s/api/bar' % HOST,
     ) 
-POLLING_INTERVAL = 30  # secs
-GRAPH_MINS = (60, 720, 10080)
 
 
     
