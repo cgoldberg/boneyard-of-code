@@ -22,7 +22,8 @@ import urlparse
 import rrd
 
 
-#config settings
+
+# config settings
 POLLING_INTERVAL = 30  # secs
 GRAPH_MINS = (60, 720, 10080)
 HOST = 'http://hostname_or_ip'
