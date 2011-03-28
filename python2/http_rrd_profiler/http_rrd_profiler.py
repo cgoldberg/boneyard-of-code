@@ -53,6 +53,7 @@ def main():
             time.sleep(POLLING_INTERVAL - elapsed)
         
 
+
 def timed_req(parsed_url):
     if parsed_url.scheme == 'https':
         conn = httplib.HTTPSConnection(parsed_url.netloc)
@@ -84,6 +85,7 @@ def timed_req(parsed_url):
         response_time, 
         transfer_time, 
         )
+
 
 
 if __name__ == '__main__':
