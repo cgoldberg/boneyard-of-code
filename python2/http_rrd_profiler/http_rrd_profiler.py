@@ -1,6 +1,17 @@
 #!/usr/bin/env python
-# Corey Goldberg - 2009, 2011
-# http profiler
+#
+#  Corey Goldberg - 2009, 2011 (goldb.org)
+#
+#  HTTP profiler - API performance probe
+#   - sends synthetic transactions (HTTP requests) to an API
+#   - stores response times in RRD database
+#      - request sent
+#      - response received
+#      - content transferred
+#   - generates PNG graphs from RRDs
+#
+#  Requirements:  Python 2.5+, RRDTool
+#
 
 
 
