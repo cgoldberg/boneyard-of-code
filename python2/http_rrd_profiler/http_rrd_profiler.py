@@ -18,7 +18,7 @@ URLS = (
     '%s/api/bar' % HOST,
     ) 
 POLLING_INTERVAL = 30  # secs
-GRAPH_MINS = (60, 720)
+GRAPH_MINS = (60, 720, 10080)
 
 
     
