@@ -10,7 +10,7 @@
 #      - content transferred
 #   - generates PNG time-series graphs from RRDs
 #
-#  Requirements:  Python 2.5+, RRDTool
+#  Requirements:  Python 2.6+, RRDTool
 #
 
 
