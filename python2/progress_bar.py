@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
     p = ProgressBar(60)
     p.update_time(15)
-    print '\nstatic progress bar:'
+    print 'static progress bar:'
     print p
     
     
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     p = ProgressBar(30)
     p.fill_char = '='
     p.update_time(25)
-    print '\nstatic progress bar:'
+    print 'static progress bar:'
     print p
     
     
@@ -78,16 +78,15 @@ if __name__ == '__main__':
     
     secs = 10
     p = ProgressBar(secs)
-    print '\n\ndynamic updating progress bar:'
-    print '\nplease wait %d seconds...\n' % secs
+    print 'dynamic updating progress bar:'
+    print 'please wait %d seconds...' % secs
     
     # spawn asych (threads/processes/etc) code here that runs for secs.
     # the call to .animate() blocks the main thread.
     
-    p.animate(secs)
+    p.animate()
     
     print 'done'
-
 
 
 """
