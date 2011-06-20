@@ -11,13 +11,6 @@ import time
 
 
 
-if sys.platform.lower().startswith('win'):
-    on_windows = True
-else:
-    on_windows = False
-
-
-
 class ProgressBar:
     def __init__(self, duration):
         self.duration = duration
@@ -26,9 +19,9 @@ class ProgressBar:
         self.width = 40
         self.__update_amount(0)
 
-    def animate(self, secs):
-        for i in range(secs):
-            if on_windows:
+    def animate(self):
+        for i in range(self.duration):
+            if sys.platform.lower().startswith('win'):
                 print self, '\r',
             else:
                 print self, chr(27) + '[A'
