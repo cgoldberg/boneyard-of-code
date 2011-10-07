@@ -8,7 +8,7 @@ from selenium import webdriver
 
 def main():
     while True:
-        browser = webdriver.Chrome()
+        browser = webdriver.Firefox()
         play(browser)
         time.sleep(1)
         browser.quit()
