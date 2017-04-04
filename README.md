@@ -9,6 +9,9 @@
  - Python 2
  - Python 3
 
+
+![](https://raw.githubusercontent.com/cgoldberg/boneyard-of-code/master/gameover.jpg)
+
 ###### (all source code is licensed under the [WTFPL](http://www.wtfpl.net/about/), unless otherwise specified)
 
 ----
